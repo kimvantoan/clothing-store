@@ -1,14 +1,15 @@
-import React from 'react'
-import Layout from '../components/Layout'
+import React from "react";
+import Layout from "../components/Layout";
+import CategoryDisplay from "../components/CategoryDisplay";
 
 const Home = () => {
   return (
     <Layout>
-        <div>
-            Home
-        </div>
+      <div className="mx-24">
+        <CategoryDisplay />
+      </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
