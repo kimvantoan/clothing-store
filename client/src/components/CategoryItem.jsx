@@ -2,7 +2,7 @@ import React from "react";
 
 const CategoryItem = () => {
   return (
-    <div>
+    <div className="cursor-pointer">
       <img
         className="w-64 h-80 rounded-xl overflow-hidden "
         src="images/signin.png"

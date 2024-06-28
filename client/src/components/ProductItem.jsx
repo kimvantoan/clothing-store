@@ -1,9 +1,10 @@
 import React from "react";
 import { CiHeart } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const ProductItem = () => {
   return (
-    <div className="inline-block">
+    <Link to={'/products  '} className="inline-block cursor-pointer">
       <div className="relative rounded-xl overflow-hidden w-72 mb-7">
         <div className="absolute  p-2 bg-white rounded-full top-6 right-6">
           <CiHeart />
@@ -17,7 +18,7 @@ const ProductItem = () => {
         </div>
         <div className="px-5 py-2 font-bold text-sm text-#3C4242 bg-#F6F6F6 rounded-lg">$77.00</div>
       </div>
-    </div>
+    </Link>
   );
 };
 

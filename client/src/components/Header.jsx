@@ -3,7 +3,7 @@ import { CiSearch, CiUser, CiHeart, CiShoppingCart } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 const Header = () => {
   return (
-    <div className="flex justify-between items-center px-24 py-8 gap-20  border-b-2">
+    <div className="flex justify-between items-center px-24 py-5 gap-20  border-b-2">
       <img src="images/logo.png" alt="" />
 
       <div className="flex gap-10 text-xl font-medium text-#807D7E">
@@ -54,10 +54,10 @@ const Header = () => {
       <div className="flex gap-3">
         <NavLink
           to={"/account"}
-          className={({ isActive }) => {
+          className={({ isActive,isPending }) => {
             return (
-              "cursor-pointer p-3  rounded-lg  text-gray-500" +
-              (isActive ? " bg-#8A33FD text-white" : "")
+              "cursor-pointer p-3  rounded-lg   text-gray-500" +
+              (isActive ? " bg-#8A33FD text-white":'')
             );
           }}
         >
