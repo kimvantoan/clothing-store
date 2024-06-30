@@ -7,8 +7,8 @@ import NewPassword from './pages/NewPassword'
 import ProductList from './pages/ProductList'
 import Cart from './pages/Cart'
 import Wishlist from './pages/Wishlist'
-import Account from './pages/Account'
 import ProductDetail from './pages/ProductDetail'
+import Order from './pages/Order'
 
 const App = () => {
   return (
@@ -22,7 +22,9 @@ const App = () => {
         <Route path='/women' element={<ProductList/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/wishlist' element={<Wishlist/>}/>
-        <Route path='/account' element={<Account/>}/>
+        <Route path='/order' element={<Order/>}/>
+        <Route path='/wishlist' element={<Wishlist/>}/>
+        <Route path='/info' element={<Wishlist/>}/>
         <Route path='/products' element={<ProductDetail/>}/>
       </Routes>
     </div>
