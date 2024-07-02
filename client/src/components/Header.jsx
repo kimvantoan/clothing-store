@@ -1,11 +1,12 @@
 import React from "react";
 import { CiSearch, CiUser, CiHeart, CiShoppingCart } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
+import logo from '../assets/logo.png'
 const Header = () => {
   return (
     <div className="flex justify-between items-center px-24 py-5 gap-20  border-b-2">
       <NavLink to={"/"}>
-        <img src="images/logo.png" alt="" />
+        <img src={logo} alt="" />
       </NavLink>
 
       <div className="flex gap-10 text-xl font-medium text-#807D7E">

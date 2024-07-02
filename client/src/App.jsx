@@ -9,6 +9,8 @@ import Cart from './pages/Cart'
 import Wishlist from './pages/Wishlist'
 import ProductDetail from './pages/ProductDetail'
 import Order from './pages/Order'
+import OrderDetail from './pages/OrderDetail'
+import Info from './pages/Info'
 
 const App = () => {
   return (
@@ -23,8 +25,9 @@ const App = () => {
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/wishlist' element={<Wishlist/>}/>
         <Route path='/order' element={<Order/>}/>
+        <Route path='/order/1' element={<OrderDetail/>}/>
         <Route path='/wishlist' element={<Wishlist/>}/>
-        <Route path='/info' element={<Wishlist/>}/>
+        <Route path='/info' element={<Info/>}/>
         <Route path='/products' element={<ProductDetail/>}/>
       </Routes>
     </div>
