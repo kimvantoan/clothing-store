@@ -12,6 +12,7 @@ import Order from './pages/Order'
 import OrderDetail from './pages/OrderDetail'
 import Info from './pages/Info'
 import Address from './pages/Address'
+import Checkout from './pages/Checkout'
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
         <Route path='/info' element={<Info/>}/>
         <Route path='/products' element={<ProductDetail/>}/>
         <Route path='/info/address' element={<Address/>}/>
+        <Route path='/checkout' element={<Checkout/>}/>
       </Routes>
     </div>
   )

@@ -67,7 +67,7 @@ const Cart = () => {
                 <p className="font-bold mt-5">{formatPrice(20)}</p>
               </div>
             </div>
-            <button className="active:opacity-85 bg-#8A33FD px-8 py-3 mt-4 text-white rounded-lg">Proceed To Checkout</button>
+            <Link to={'/checkout'} className="active:opacity-85 bg-#8A33FD px-8 py-3 mt-4 text-white rounded-lg">Proceed To Checkout</Link>
           </div>
         </div>
       </div>
