@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 import { Link } from 'react-router-dom';
-
+import logo from '../assets/logo.png'
 const HeaderAuth = () => {
     return (
         <div className="flex justify-between items-center px-24 py-5 gap-20  border-b-2">
-          <img src="images/logo.png" alt="" />
+          <img src={logo} alt="" />
     
           <div className="flex py-3 px-5 gap-1 bg-#F6F6F6 rounded-lg ">
             <CiSearch className="w-6 h-6 text-#807D7E cursor-pointer" />

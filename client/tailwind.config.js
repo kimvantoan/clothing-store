@@ -4,6 +4,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",],
   theme: {
     extend: {
+      backgroundImage:{
+        'hero-pattern':'url(/assets/bg.png)'
+      },
       colors:{
         '#8A33FD':'#8A33FD',
         '#8A8989':'#8A8989',

@@ -18,6 +18,17 @@ const Header = () => {
             );
           }}
         >
+          Home
+        </NavLink>
+
+        <NavLink
+          to={"/shop"}
+          className={({ isActive }) => {
+            return (
+              "cursor-pointer" + (isActive ? " text-#2A2F2F font-bold" : "")
+            );
+          }}
+        >
           Shop
         </NavLink>
 
@@ -41,8 +52,6 @@ const Header = () => {
         >
           Women
         </NavLink>
-        <NavLink className={`cursor-pointer`}>Combos</NavLink>
-        <NavLink className={`cursor-pointer`}>Jogger</NavLink>
       </div>
 
       <div className="flex py-3 px-5 gap-1 bg-#F6F6F6 rounded-lg ">
@@ -59,8 +68,8 @@ const Header = () => {
           to={"/wishlist"}
           className={({ isActive }) => {
             return (
-              "cursor-pointer p-3  rounded-lg   text-gray-500" +
-              (isActive ? " bg-#8A33FD text-white" : "")
+              "cursor-pointer p-3 rounded-lg " +
+              (isActive ? " bg-#8A33FD text-white" : "bg-#F6F6F6 text-gray-500")
             );
           }}
         >
@@ -70,8 +79,8 @@ const Header = () => {
           to={"/order"}
           className={({ isActive }) => {
             return (
-              "cursor-pointer p-3  rounded-lg  text-gray-500" +
-              (isActive ? " bg-#8A33FD text-white" : "")
+              "cursor-pointer p-3  rounded-lg " +
+              (isActive ? " bg-#8A33FD text-white" : "bg-#F6F6F6 text-gray-500")
             );
           }}
         >
@@ -81,8 +90,8 @@ const Header = () => {
           to={"/cart"}
           className={({ isActive }) => {
             return (
-              "cursor-pointer p-3  rounded-lg  text-gray-500" +
-              (isActive ? " bg-#8A33FD text-white" : "")
+              "cursor-pointer p-3  rounded-lg " +
+              (isActive ? " bg-#8A33FD text-white" : " bg-#F6F6F6 text-gray-500")
             );
           }}
         >

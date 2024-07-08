@@ -380,5 +380,5 @@ const Checkout = () => {
     </Layout>
   );
 };
-
+    
 export default Checkout;

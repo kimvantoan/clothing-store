@@ -80,7 +80,7 @@ const Info = () => {
                 htmlFor="password"
                 className="font-semibold text-lg text-#807D7E"
               >
-                Your Name
+                Password
               </label>
               <div className="font-semibold text-lg flex justify-between">
                 <input
@@ -89,11 +89,7 @@ const Info = () => {
                   className="outline-none"
                   value="csdvsd"
                 />
-                <input
-                  type="submit"
-                  value="change"
-                  className="cursor-pointer"
-                />
+                <Link to={'/newpassword'} >change</Link>
               </div>
             </div>
           </form>
