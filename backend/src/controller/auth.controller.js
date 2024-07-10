@@ -32,7 +32,7 @@ const register = async (req, res) => {
     const user = await newUser.save();
     const token = createToken(user._id);
 
-    res.json({ success: true, token });
+    res.status(201).json({ success: true, token });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });
@@ -54,8 +54,7 @@ const login = async (req, res) => {
 
   const token = createToken(existEmail._id);
 
-  res.json({success:true,token})
-
+  res.json({ success: true, token });
 };
 
-module.exports = { register,login };
+module.exports = { register, login };
