@@ -1,9 +1,13 @@
-const mongodbURL='mongodb+srv://kimvantoan2k3:NwyQAjutLxMcQ6P9@cluster0.mudtjin.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 
 const mongoose = require('mongoose')
 
-const connectDb=()=>{
-    return mongoose.connect(mongodbURL)
+const connectDb=async ()=>{
+    try {
+        await mongoose.connect(process.env.MongoDbURL)
+        console.log("connect to mongodb successfull");
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 module.exports={connectDb}
