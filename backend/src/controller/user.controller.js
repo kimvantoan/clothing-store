@@ -1,10 +1,15 @@
-const User = require("../model/user.model.js");
+const {
+  findAllUser,
+  findUserById,
+  update_User,
+  delete_User,
+} = require("../service/user.service.js");
 
 const getAllUser = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await findAllUser();
 
-    res.json({ success: true, users });
+    res.status(200).json({ success: true, users });
   } catch (error) {
     console.log(error);
 
@@ -16,7 +21,7 @@ const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findById(id);
+    const user = await findUserById(id);
 
     res.json({ success: true, user });
   } catch (error) {
@@ -28,26 +33,23 @@ const getUserById = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { firstname, lastname, email, mobile } = req.body;
-
     const { userId } = req.body;
 
-    await User.findByIdAndUpdate(userId, {
-      firstname,
-      lastname,
-      email,
-      mobile,
-    });
+    await update_User(userId, req.body);
+
     res.status(200).json({ success: true, message: "update successfully" });
   } catch (error) {
     console.log(error);
-    return res.json({ success: false, message: "Error" });
+
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
 const deleteUser = async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.body.userId);
+    const { userId } = req.body;
+
+    await delete_User(userId);
 
     res
       .status(200)

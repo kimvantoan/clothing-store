@@ -1,60 +1,62 @@
 const User = require("../model/user.model.js");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { createUser, findUserByEmail } = require("../service/user.service.js");
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
 const register = async (req, res) => {
-  const { firstname, lastname, email, password, confirmPassword } = req.body;
-
+  const {email,confirmPassword,password } = req.body;
   try {
-    const existEmail = await User.findOne({ email });
-    if (existEmail) {
-      return res.json({ success: false, message: "User already exist" });
+    const existEmail =await findUserByEmail(email) 
+
+    if(existEmail){
+      return res.status(400).json({ success: false, message:"User already exist" })
     }
 
     if (confirmPassword !== password) {
-      return res.json({ success: false, message: "error password" });
+      return res.status(400).json({ success: false, message:"error password" })
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
+    const user =await createUser(req.body)
 
-    const newUser = new User({
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      password: hashPassword,
-    });
-
-    const user = await newUser.save();
     const token = createToken(user._id);
 
     res.status(201).json({ success: true, token });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "Error" });
+
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const existEmail = await User.findOne({ email });
-  if (!existEmail) {
-    return res.json({ success: false, message: "User doesn't exist" });
+    const existEmail =await findUserByEmail(email) 
+
+    if (!existEmail) {
+      return res.json({ success: false, message: "User doesn't exist" });
+    }
+
+    const isMatch = await bcrypt.compare(password, existEmail.password);
+
+    if (!isMatch) {
+      return res.json({ success: false, message: "wrong email or password" });
+    }
+
+    const token = createToken(existEmail._id);
+
+    res.status(200).json({ success: true, token });
+  } catch (error) {
+    console.log(error);
+
+    return res.json({ success: false, message: "Error" });
   }
-
-  const isMatch = await bcrypt.compare(password, existEmail.password);
-  if (!isMatch) {
-    return res.json({ success: false, message: "wrong email or password" });
-  }
-
-  const token = createToken(existEmail._id);
-
-  res.json({ success: true, token });
 };
 
 module.exports = { register, login };
