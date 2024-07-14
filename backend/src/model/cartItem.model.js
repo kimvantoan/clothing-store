@@ -15,6 +15,10 @@ const cartItemSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+    color:{
+        type:String,
+        required:true
+    },
     quantity:{
         type:Number,
         required:true,
@@ -36,4 +40,5 @@ const cartItemSchema= new mongoose.Schema({
 })
 
 const CartItem=mongoose.model('cartItems',cartItemSchema)
+
 module.exports=CartItem

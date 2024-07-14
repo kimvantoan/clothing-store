@@ -7,6 +7,8 @@ const userRoute = require("./routes/user.route.js");
 const productRoute = require("./routes/product.route.js");
 const reviewRoute = require("./routes/review.route.js");
 const ratingRoute = require("./routes/rating.route.js");
+const cartRoute = require("./routes/cart.route.js");
+const cartItemRoute = require("./routes/cartItem.route.js");
 
 require("dotenv").config();
 
@@ -17,6 +19,8 @@ app.use("/user", userRoute);
 app.use("/product", productRoute);
 app.use("/review", reviewRoute);
 app.use("/rating", ratingRoute);
+app.use("/cart", cartRoute);
+app.use("/cartItem", cartItemRoute);
 
 connectDb();
 
