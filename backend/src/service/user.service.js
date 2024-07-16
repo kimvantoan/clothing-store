@@ -28,7 +28,7 @@ const findUserByEmail = async (email) => {
   return existEmail;
 };
 const findUserById = async (id) => {
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate('address');
   return user;
 };
 
