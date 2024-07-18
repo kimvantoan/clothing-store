@@ -25,16 +25,10 @@ const orderSchema = new mongoose.Schema({
     ref: "addresses",
   },
   paymentDetails: {
-    paymentMethod: {
+    method: {
       type: String,
     },
-    transactionId: {
-      type: String,
-    },
-    paymentId: {
-      type: String,
-    },
-    paymentStatus: {
+    status: {
       type: String,
       default: "Pending",
     },
@@ -58,7 +52,7 @@ const orderSchema = new mongoose.Schema({
   orderStatus: {
     type: String,
     required: true,
-    default: "Inprogress",
+    default: "Order Placed",
   },
   createAt:{
     type:Date,

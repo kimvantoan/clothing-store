@@ -8,12 +8,29 @@ const authMiddleware = async (req, res, next) => {
     }
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);
+
     req.body.userId = decode.id;
+
+    req.body.role = decode.role;
+
     next();
   } catch (error) {
     console.log(error);
+
     return res.json({ success: false, message: "Error token" });
   }
 };
 
-module.exports = { authMiddleware };
+const isAdmin = async (req, res, next) => {
+  await authMiddleware(req, res, () => {
+    if (req.body.role === "ADMIN") {
+      next();
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: "no authorization" });
+    }
+  });
+};
+
+module.exports = { authMiddleware, isAdmin };

@@ -4,8 +4,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { createUser, findUserByEmail } = require("../service/user.service.js");
 
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
+const createToken = (id,role) => {
+  return jwt.sign({ id ,role}, process.env.JWT_SECRET);
 };
 
 const register = async (req, res) => {
@@ -23,7 +23,7 @@ const register = async (req, res) => {
 
     const user =await createUser(req.body)
 
-    const token = createToken(user._id);
+    const token = createToken(user._id,user.role);
 
     res.status(201).json({ success: true, token });
   } catch (error) {
@@ -49,8 +49,8 @@ const login = async (req, res) => {
       return res.json({ success: false, message: "wrong email or password" });
     }
 
-    const token = createToken(existEmail._id);
-
+    const token = createToken(existEmail._id,existEmail.role);
+  
     res.status(200).json({ success: true, token });
   } catch (error) {
     console.log(error);

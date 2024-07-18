@@ -15,7 +15,7 @@ const create_address = async (userId, reqData) => {
     streetAddress: reqData.streetAddress,
   }).save();
 
-  user.address.push(address._id);
+  user.address.push(address);
 
   await user.save();
 
