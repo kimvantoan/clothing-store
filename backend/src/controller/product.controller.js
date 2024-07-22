@@ -8,7 +8,10 @@ const {
 
 const createProduct = async (req, res) => {
   try {
-    await create_product(req.body);
+    const image = req.file.filename;
+
+    await create_product(req.body,image);
+
     res
       .status(201)
       .json({ success: true, message: "create product successfully" });
@@ -57,7 +60,7 @@ const deleteProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    await update_product(req.body._id, req.body);
+    await update_product(req.body,req.file.filename);
 
     res
       .status(200)
@@ -72,6 +75,6 @@ module.exports = {
   createProduct,
   getAllProduct,
   getProductById,
-  updateProduct,    
+  updateProduct,
   deleteProductById,
 };

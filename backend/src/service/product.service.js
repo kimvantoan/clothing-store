@@ -1,11 +1,14 @@
 const Product = require("../model/product.model.js");
 const Category = require("../model/category.model.js");
-
-const create_product = async (reqData) => {
+const fs = require("fs");
+const create_product = async (reqData, image) => {
   let firstLevel = await Category.findOne({ name: reqData.firstLevelCategory });
 
   if (!firstLevel) {
-    firstLevel =await new Category({ name: reqData.firstLevelCategory, level: 1 }).save();
+    firstLevel = await new Category({
+      name: reqData.firstLevelCategory,
+      level: 1,
+    }).save();
   }
 
   let secondLevel = await Category.findOne({
@@ -14,14 +17,13 @@ const create_product = async (reqData) => {
   });
 
   if (!secondLevel) {
-    secondLevel =await new Category({
+    secondLevel = await new Category({
       name: reqData.secondLevelCategory,
       level: 2,
       parentCategory: firstLevel._id,
     }).save();
   }
 
-  console.log(secondLevel);
   const product = new Product({
     title: reqData.title,
     description: reqData.description,
@@ -30,20 +32,30 @@ const create_product = async (reqData) => {
     quantity: reqData.quantity,
     brand: reqData.brand,
     color: reqData.color,
-    image: reqData.image,
+    image: image,
     size: reqData.size,
-    category: secondLevel._id
+    category: secondLevel._id,
   });
 
   return await product.save();
 };
 
 const delete_product = async (productId) => {
+  const product = await Product.findById(productId);
+
+  fs.unlink(`src/uploads/${product.image}`, () => {});
+  
   return await Product.findByIdAndDelete(productId);
 };
 
-const update_product = async (productId, reqData) => {
-  return await Product.findByIdAndUpdate(productId, reqData);
+const update_product = async (reqData, image) => {
+  const product = await Product.findById(reqData.productId);
+
+  const newProduct= await Product.findByIdAndUpdate(reqData.productId, { reqData, image });
+
+  fs.unlink(`src/uploads/${product.image}`, () => {});
+
+  return newProduct
 };
 
 const findProductById = async (productId) => {
