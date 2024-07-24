@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const productSchema =new mongoose.Schema({
+const productSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -13,12 +13,20 @@ const productSchema =new mongoose.Schema({
     type: Number,
     required: true,
   },
-  discountedPrice: {
+  discount: {
     type: Number,
   },
-  // discountPercent: {
-  //   type: Number,
-  // },
+  sizes: [{ type: String, required: true }],
+
+  colors: [{ type: String, required: true }],
+  stock: [
+    {
+      size: { type: String, required: true },
+      color: { type: String, required: true },
+      quantity: { type: Number, required: true },
+    },
+  ],
+  sold: { type: Number, default: 0 },
   quantity: {
     type: Number,
     required: true,
@@ -27,16 +35,6 @@ const productSchema =new mongoose.Schema({
     type: String,
     required: true,
   },
-  color: {
-    type:String,
-    required:true
-  },
-  size: [
-    {
-      name: { type: String },
-      quantity: { type: Number },
-    },
-  ],
   image: {
     type: String,
     required: true,

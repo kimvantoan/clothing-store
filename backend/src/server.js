@@ -13,7 +13,7 @@ const addressRoute = require("./routes/address.route.js");
 const orderRoute = require("./routes/order.route.js");
 
 require("dotenv").config();
-
+app.use(express.static("src/uploads"))
 app.use(express.json());
 app.use(cors());
 app.use("/auth", authRoute);

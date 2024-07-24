@@ -10,18 +10,17 @@ const findUserCart = async (userId) => {
 
   let totalPrice = 0;
   let totalItem = 0;
-  let totalDiscountedPrice = 0;
+  let totalDiscount = 0;
 
   for (let cartItem of cart.cartItem) {
     totalItem += cartItem.quantity;
     totalPrice += cartItem.price * cartItem.quantity;
-    totalDiscountedPrice += cartItem.discountedPrice * cartItem.quantity;
+    totalDiscount += cartItem.discount * cartItem.quantity;
   }
 
   cart.totalPrice = totalPrice;
   cart.totalItem = totalItem;
-  cart.totalDiscountedPrice = totalDiscountedPrice;
-  cart.discount = totalPrice - totalDiscountedPrice;
+  cart.totalDiscount = totalDiscount;
 
   return await cart.save();
 };
@@ -35,7 +34,7 @@ const addCartItem = async (userId, reqData) => {
     product: reqData.productId,
     size: reqData.size,
     color: reqData.color,
-    cart:cart._id
+    cart: cart._id,
   });
 
   if (isExistCart) {
@@ -51,9 +50,9 @@ const addCartItem = async (userId, reqData) => {
       color: reqData.color,
       quantity: 1,
       price: product.price,
-      discountedPrice: product.discountedPrice,
+      discount: product.discount,
     }).save();
-      
+
     cart.cartItem.push(cartItem);
   }
 
