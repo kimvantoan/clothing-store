@@ -5,7 +5,7 @@ import OrderItem from "../components/OrderItem";
 
 const Order = () => {
   const [status, setStatus] = useState('active')
-  console.log(status);
+
   return (
     <Layout >
       <div className="flex gap-x-12 mx-24 my-10">

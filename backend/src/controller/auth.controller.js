@@ -9,8 +9,8 @@ const createToken = (id,role) => {
 };
 
 const register = async (req, res) => {
-  const {email,confirmPassword,password } = req.body;
   try {
+    const {email,confirmPassword,password } = req.body;
     const existEmail =await findUserByEmail(email) 
 
     if(existEmail){
@@ -29,7 +29,7 @@ const register = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: "error" });
   }
 };
 
@@ -40,13 +40,13 @@ const login = async (req, res) => {
     const existEmail =await findUserByEmail(email) 
 
     if (!existEmail) {
-      return res.json({ success: false, message: "User doesn't exist" });
+      return res.status(400).json({ success: false, message: "User doesn't exist" });
     }
 
     const isMatch = await bcrypt.compare(password, existEmail.password);
 
     if (!isMatch) {
-      return res.json({ success: false, message: "wrong email or password" });
+      return res.status(400).json({ success: false, message: "wrong email or password" });
     }
 
     const token = createToken(existEmail._id,existEmail.role);
@@ -55,7 +55,7 @@ const login = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.json({ success: false, message: "Error" });
+    return res.status(500).json({ success: false, message: "Error" });
   }
 };
 
