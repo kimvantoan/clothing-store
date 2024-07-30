@@ -32,4 +32,4 @@ const removeCartItem = async (req, res) => {
     return res.status(500).json({ success: false, message: error });
   }
 };
-module.exports = { updateCartItem,removeCartItem };
+module.exports = { updateCartItem, removeCartItem };

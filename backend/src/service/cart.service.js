@@ -6,7 +6,12 @@ const create_cart = async (userId) => {
 };
 
 const findUserCart = async (userId) => {
-  let cart = await Cart.findOne({ user: userId }).populate("cartItem");
+  let cart = await Cart.findOne({ user: userId }).populate({
+    path: "cartItem",
+    populate: {
+      path: "product",
+    },
+  });
 
   let totalPrice = 0;
   let totalItem = 0;
@@ -45,7 +50,7 @@ const addCartItem = async (userId, reqData) => {
     let cartItem = await new CartItem({
       userId: userId,
       cart: cart._id,
-      product: product._id,
+      product: product,
       size: reqData.size,
       color: reqData.color,
       quantity: 1,

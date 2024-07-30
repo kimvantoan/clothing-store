@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { IoIosStar } from "react-icons/io";
 import { TfiCommentAlt } from "react-icons/tfi";
@@ -7,25 +7,24 @@ import { useParams } from "react-router-dom";
 import formatPrice from "../utils/FormatPrice";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
+import { StoreContext } from "../context/StoreContext";
 
 const ProductDetail = () => {
   const [product, setProduct] = useState({});
-  const [sizes, setSizes] = useState([]);
-  const [colors, setColors] = useState([]);
-  const [reviews, setReviews] = useState([]);
   const { id } = useParams();
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [selectSize, setSelectSize] = useState("");
   const [selectColor, setSelectColor] = useState("");
   const [productDesc, setProductDesc] = useState("desc");
+  const { handleAddToCart } = useContext(StoreContext);
+  const sizes = product.sizes;
+  const colors = product.colors;
+  const reviews = product.reviews;
   useEffect(() => {
     axios
       .get(`http://localhost:3000/product/${id}`)
       .then((res) => {
-        setProduct(res.data.product),
-          setSizes(res.data.product.sizes),
-          setColors(res.data.product.colors);
-          setReviews(res.data.product.reviews);
+        setProduct(res.data.product);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -73,11 +72,9 @@ const ProductDetail = () => {
             <h1 className="font-bold text-4xl text-#3C4242">{product.title}</h1>
             <div className="flex gap-7 mt-4 text-xl font-bold items-center">
               <div className="text-3xl text-#3C4242">
-                {formatPrice(product.price)}
+                {formatPrice(product.price - product.discount)}
               </div>
-              <s className="text-#807D7E">
-                {formatPrice(product.price + product.discount)}
-              </s>
+              <s className="text-#807D7E">{formatPrice(product.price)}</s>
               <div className="p-0.5 bg-#8A33FD text-white rounded-lg">
                 -{((product.discount / product.price) * 100).toFixed(0)}%
               </div>
@@ -93,13 +90,13 @@ const ProductDetail = () => {
               </div>
               <div className="flex items-center gap-2">
                 <TfiCommentAlt />
-                <p>{reviews.length} comment</p>
+                <p>{reviews?.length} comment</p>
               </div>
             </div>
             <div>
               <p className="font-semibold text-lg mt-9 mb-6">Select Size</p>
               <ul className="flex gap-5 text-sm font-medium text-#3C4242">
-                {sizes.map((size) => (
+                {sizes?.map((size) => (
                   <li
                     onClick={() => setSelectSize(`${size}`)}
                     className={`${
@@ -114,7 +111,7 @@ const ProductDetail = () => {
             <div>
               <p className="font-semibold text-lg mt-9 mb-6">Select Colours</p>
               <ul className="flex gap-5">
-                {colors.map((color) => (
+                {colors?.map((color) => (
                   <li
                     onClick={() => setSelectColor(`${color}`)}
                     className={`${
@@ -129,6 +126,9 @@ const ProductDetail = () => {
 
             <div className="my-9 flex gap-6">
               <SecondaryButton
+                action={() =>
+                  handleAddToCart(product._id, selectSize, selectColor)
+                }
                 isButtonDisabled={isButtonDisabled}
                 title={"Add to cart"}
               />

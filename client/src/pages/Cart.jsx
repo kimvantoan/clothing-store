@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import formatPrice from "../utils/FormatPrice";
+import { StoreContext } from "../context/StoreContext";
 
 const Cart = () => {
+  const { cart } = useContext(StoreContext);
+  const cartItem = cart.cartItem
   return (
     <Layout>
-      <div className="block">
-        <div className="text-#807D7E text-sm mx-24 my-10">
+      <div>
+        <div
+          className={`${
+            localStorage.getItem("token") ? "hidden" : "block"
+          } text-#807D7E text-sm mx-24 my-10`}
+        >
           <p>
             Please fill in the fields below and click place order to complete
             your purchase!
@@ -31,7 +38,9 @@ const Cart = () => {
             <p>action</p>
           </div>
           <div className="mx-24">
-            <CartItem />
+            {cartItem?.map((item) => (
+              <CartItem item={item} />
+            ))}
           </div>
         </div>
 
@@ -49,7 +58,10 @@ const Cart = () => {
                 Apply Coupon
               </button>
             </div>
-            <Link to={'/'} className="px-8 py-3 hover:bg-#8A33FD bg-white hover:text-white text-#3C4242 font-semibold rounded-xl border-2">
+            <Link
+              to={"/"}
+              className="px-8 py-3 hover:bg-#8A33FD bg-white hover:text-white text-#3C4242 font-semibold rounded-xl border-2"
+            >
               Continue Shopping
             </Link>
           </div>
@@ -58,16 +70,23 @@ const Cart = () => {
             <div className="grid grid-cols-2 gap-20 place-items-center pb-6 border-b border-#3C4242">
               <div className="grid grid-rows-3 text-#3C4242 font-medium text-xl">
                 <p>Sub Total</p>
-                <p>Shipping</p>
+                <p>Total Discount</p>
+                
                 <p className="font-bold mt-5">Grand Total</p>
               </div>
               <div className="text-#3C4242 font-medium text-xl grid grid-rows-3">
-                <p>{formatPrice(20)}</p>
-                <p>{formatPrice(20)}</p>
-                <p className="font-bold mt-5">{formatPrice(20)}</p>
+                <p>{formatPrice(cart.totalPrice)}</p>
+                <p>{formatPrice(cart.totalDiscount)}</p>
+                
+                <p className="font-bold mt-5">{formatPrice(cart.totalPrice)}</p>
               </div>
             </div>
-            <Link to={'/checkout'} className="active:opacity-85 bg-#8A33FD px-8 py-3 mt-4 text-white rounded-lg">Proceed To Checkout</Link>
+            <Link
+              to={"/checkout"}
+              className="active:opacity-85 bg-#8A33FD px-8 py-3 mt-4 text-white rounded-lg"
+            >
+              Proceed To Checkout
+            </Link>
           </div>
         </div>
       </div>
@@ -75,7 +94,12 @@ const Cart = () => {
         <img src="images/empty-cart.png" alt="" />
         <h1 className="font-bold text-4xl ">Your cart is empty and sad :(</h1>
         <p className="text-#807D7E">Add something to make it happy!</p>
-        <Link to={'/'} className="active:opacity-85 bg-#8A33FD px-8 py-3 mt-4 text-white rounded-lg">Continue Shopping</Link>
+        <Link
+          to={"/"}
+          className="active:opacity-85 bg-#8A33FD px-8 py-3 mt-4 text-white rounded-lg"
+        >
+          Continue Shopping
+        </Link>
       </div>
     </Layout>
   );

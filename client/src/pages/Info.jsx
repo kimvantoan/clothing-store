@@ -4,6 +4,7 @@ import SideBar from "../components/SideBar";
 import { Link } from "react-router-dom";
 
 const Info = () => {
+  
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">

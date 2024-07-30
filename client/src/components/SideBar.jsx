@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TbShoppingBagCheck } from "react-icons/tb";
 import { LuUser2 } from "react-icons/lu";
 import { PiSignOutBold } from "react-icons/pi";
@@ -6,8 +6,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 const SideBar = () => {
   const navigate = useNavigate();
-  const handleSignout = async (e) => {
-    e.preventDefault();
+  const handleSignout = async () => {
     localStorage.removeItem("token");
     navigate("/signin");
   };
@@ -62,7 +61,9 @@ const SideBar = () => {
           }
         >
           <PiSignOutBold />
-          <p>{localStorage.getItem('token')=== null ? 'Sign in':'Sign out'} </p>
+          <p>
+            {localStorage.getItem("token") === null ? "Sign in" : "Sign out"}{" "}
+          </p>
         </button>
       </div>
     </div>

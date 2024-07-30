@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import HeaderAuth from "../components/HeaderAuth";
 import { Link, useNavigate } from "react-router-dom";
 import signup from "../assets/signup.png";
@@ -13,7 +13,6 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
-
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
@@ -24,8 +23,8 @@ const SignUp = () => {
         password: password,
         confirmPassword: confirmPassword,
       });
+      localStorage.setItem("token","Bearer "+ res.data.token);
       navigate("/");
-      localStorage.setItem("token", res.data.token);
     } catch (error) {
       toast.error(error.response.data.message);
     }

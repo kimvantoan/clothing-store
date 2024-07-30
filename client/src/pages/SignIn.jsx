@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import HeaderAuth from "../components/HeaderAuth";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,7 +15,7 @@ const SignIn = () => {
         email: email,
         password: password,
       });
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token","Bearer "+ res.data.token);
       navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
