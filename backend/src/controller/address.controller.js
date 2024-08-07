@@ -53,16 +53,9 @@ const updateAddress = async (req, res) => {
 
 const removeAddress = async (req, res) => {
   try {
-    const { userId } = req.body;
-
     const address = await find_Address_By_Id(req.body);
 
-    if (address.user.toString() !== userId.toString()) {
-      return res
-        .status(400)
-        .json({ success: false, message: "no authorization" });
-    }
-    await remove_address(req.body);
+    await remove_address(address._id);
 
     res
       .status(200)
@@ -75,18 +68,14 @@ const removeAddress = async (req, res) => {
 
 const findAddressById = async (req, res) => {
   try {
-    const { userId } = req.body;
-
-    const address = await find_Address_By_Id(req.body);
-
-    if (address.user.toString() !== userId.toString()) {
-      return res
-        .status(400)
-        .json({ success: false, message: "no authorization" });
-    }
+    const {id}=req.params
     
+    const address = await find_Address_By_Id(id);
+
     res.status(200).json({ success: true, address });
   } catch (error) {
+    console.log(error);
+    
     return res.status(500).json({ success: false, message: error.message });
   }
 };

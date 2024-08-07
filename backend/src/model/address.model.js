@@ -17,14 +17,19 @@ const addressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  country: {
+    type: String,
+    required: true,
+  },
   state: {
     type: String,
     required: true,
   },
-  zipCode: {
-    type: Number,
+  apartment: {
+    type: String,
     required: true,
   },
+
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
@@ -33,7 +38,10 @@ const addressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  deliInstruction: {
+    type: String,
+  },
 });
 
 const Address = mongoose.model("addresses", addressSchema);
-module.exports=Address
+module.exports = Address;

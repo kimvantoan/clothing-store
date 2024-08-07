@@ -4,12 +4,14 @@ const {
   getUserById,
   updateUser,
   deleteUser,
+  getInfo,
 } = require("../controller/user.controller");
 const Router = express.Router();
-const { authMiddleware } = require("../middleware/auth.js");
+const { authMiddleware,isAdmin } = require("../middleware/auth.js");
 
 Router.get("/", authMiddleware, getAllUser);
-Router.get("/:id", authMiddleware, getUserById);
+Router.get("/info", authMiddleware, getInfo);
+Router.get("/:id", isAdmin, getUserById);
 Router.patch("/update", authMiddleware, updateUser);
 Router.delete("/delete", authMiddleware, deleteUser);
 

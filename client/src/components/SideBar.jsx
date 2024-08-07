@@ -4,7 +4,10 @@ import { LuUser2 } from "react-icons/lu";
 import { PiSignOutBold } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
+import { StoreContext } from "../context/StoreContext";
 const SideBar = () => {
+  const { user } = useContext(StoreContext);
+  
   const navigate = useNavigate();
   const handleSignout = async () => {
     localStorage.removeItem("token");
@@ -14,7 +17,9 @@ const SideBar = () => {
     <div className="w-72">
       <div className="flex gap-5 mb-3">
         <div className="rounded-xl border-l-4 border-#8A33FD"></div>
-        <h2 className=" text-#3C4242 font-bold text-4xl">Hello Kim</h2>
+        <h2 className=" text-#3C4242 font-bold text-4xl">
+          Hello {user.firstname}
+        </h2>
       </div>
       <p className="text-sm text-#807D7E mb-7">Welcome to your Account</p>
       <div>
@@ -61,9 +66,7 @@ const SideBar = () => {
           }
         >
           <PiSignOutBold />
-          <p>
-            {localStorage.getItem("token") === null ? "Sign in" : "Sign out"}{" "}
-          </p>
+          <p>Sign out</p>
         </button>
       </div>
     </div>

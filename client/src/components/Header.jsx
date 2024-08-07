@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { CiSearch, CiUser, CiHeart, CiShoppingCart } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
-import logo from '../assets/logo.png'
+import logo from "../assets/logo.png";
 import { StoreContext } from "../context/StoreContext";
 const Header = () => {
-  const {fetchCart } = useContext(StoreContext);
+  const { fetchCart } = useContext(StoreContext);
 
   return (
     <div className="flex justify-between items-center px-24 py-5 gap-20  border-b-2">
@@ -68,7 +68,7 @@ const Header = () => {
 
       <div className="flex gap-3">
         <NavLink
-          to={"/wishlist"}
+          to={localStorage.getItem("token") ? "/wishlist" : "/signin"}
           className={({ isActive }) => {
             return (
               "cursor-pointer p-3 rounded-lg " +
@@ -79,7 +79,7 @@ const Header = () => {
           <CiHeart className={`w-6 h-6`} />
         </NavLink>
         <NavLink
-          to={"/order"}
+          to={localStorage.getItem("token") ? "/order" : "/signin"}
           className={({ isActive }) => {
             return (
               "cursor-pointer p-3  rounded-lg " +
@@ -90,12 +90,13 @@ const Header = () => {
           <CiUser className={`w-6 h-6  `} />
         </NavLink>
         <NavLink
-        onClick={fetchCart}
           to={"/cart"}
           className={({ isActive }) => {
             return (
               "cursor-pointer p-3  rounded-lg " +
-              (isActive ? " bg-#8A33FD text-white" : " bg-#F6F6F6 text-gray-500")
+              (isActive
+                ? " bg-#8A33FD text-white"
+                : " bg-#F6F6F6 text-gray-500")
             );
           }}
         >

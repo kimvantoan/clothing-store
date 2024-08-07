@@ -7,16 +7,24 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
-
-  useEffect(()=>{
-    axios.get('http://localhost:3000/product')
-  })
+  const [user, setUser] = useState({});
   useEffect(() => {
     axios
       .get("http://localhost:3000/product")
       .then((res) => setProducts(res.data.products))
       .catch((error) => console.log(error));
   }, []);
+
+  const fetchUser = () => {
+    axios
+      .get("http://localhost:3000/user/info", {
+        headers: {
+          authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => setUser(res.data.user))
+      .catch((error) => console.log(error));
+  };
 
   const fetchCart = () => {
     axios
@@ -28,6 +36,7 @@ const StoreContextProvider = ({ children }) => {
       .then((res) => setCart(res.data.cart))
       .catch((error) => console.log(error));
   };
+
   const handleAddToCart = async (productId, size, color) => {
     try {
       const res = await axios.post(
@@ -105,19 +114,22 @@ const StoreContextProvider = ({ children }) => {
       toast.error(error.response.data.message);
     }
   };
-
-  useEffect(() => {
-    fetchCart();
-  }, []);
+  useEffect(()=>{
+    fetchUser(),
+    fetchCart()
+  },[])
 
   const contextValue = {
     products,
     cart,
+    user,
+    setUser,
     handleAddToCart,
     handleRemoveCart,
     handlePlus,
     handleSub,
     fetchCart,
+    fetchUser,
   };
 
   return (

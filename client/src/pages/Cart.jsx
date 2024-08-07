@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
@@ -7,10 +7,12 @@ import { StoreContext } from "../context/StoreContext";
 
 const Cart = () => {
   const { cart } = useContext(StoreContext);
-  const cartItem = cart.cartItem
+  
+  const cartItem = cart.cartItem;
+
   return (
     <Layout>
-      <div>
+      <div className={`${cartItem?.length!==0 ? "block" : "hidden"}`}>
         <div
           className={`${
             localStorage.getItem("token") ? "hidden" : "block"
@@ -71,13 +73,13 @@ const Cart = () => {
               <div className="grid grid-rows-3 text-#3C4242 font-medium text-xl">
                 <p>Sub Total</p>
                 <p>Total Discount</p>
-                
+
                 <p className="font-bold mt-5">Grand Total</p>
               </div>
               <div className="text-#3C4242 font-medium text-xl grid grid-rows-3">
                 <p>{formatPrice(cart.totalPrice)}</p>
                 <p>{formatPrice(cart.totalDiscount)}</p>
-                
+
                 <p className="font-bold mt-5">{formatPrice(cart.totalPrice)}</p>
               </div>
             </div>
@@ -90,7 +92,11 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <div className="hidden flex-col bg-#F6F6F6 items-center gap-3 py-16">
+      <div
+        className={`${
+          cartItem?.length===0 ? "flex" : "hidden"
+        } flex-col bg-#F6F6F6 items-center gap-3 py-16`}
+      >
         <img src="images/empty-cart.png" alt="" />
         <h1 className="font-bold text-4xl ">Your cart is empty and sad :(</h1>
         <p className="text-#807D7E">Add something to make it happy!</p>

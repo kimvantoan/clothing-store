@@ -1,10 +1,51 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import SideBar from "../components/SideBar";
 import { Link } from "react-router-dom";
+import { StoreContext } from "../context/StoreContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Info = () => {
-  
+  const { user, setUser, fetchUser, setCur } = useContext(StoreContext);
+
+  const onChangeHandle = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setUser((data) => ({ ...data, [name]: value }));
+  };
+
+  const handleUpdateInfo = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.patch("http://localhost:3000/user/update", user, {
+        headers: {
+          authorization: localStorage.getItem("token"),
+        },
+      });
+      toast.success(res.data.message);
+      fetchUser();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const handleRemoveAddress = async (idAddress) => {
+    try {
+      const res = await axios.delete("http://localhost:3000/address/delete", {
+        data: {
+          _id: idAddress,
+        },
+        headers: {
+          authorization: localStorage.getItem("token"),
+        },
+      });
+      toast.success(res.data.message);
+      fetchUser();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">
@@ -13,27 +54,6 @@ const Info = () => {
           <h1 className="font-bold text-3xl text-#3C4242 mb-5">My Info</h1>
           <p className="font-bold text-xl text-#3C4242">Contact Details</p>
           <form action="">
-            <div className="py-5 border-b">
-              <label
-                htmlFor="name"
-                className="font-semibold text-lg text-#807D7E"
-              >
-                Your Name
-              </label>
-              <div className="font-semibold text-lg flex justify-between">
-                <input
-                  type="text"
-                  id="name"
-                  className="outline-none"
-                  value="kim toan"
-                />
-                <input
-                  type="submit"
-                  value="change"
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
             <div className="py-5 border-b">
               <label
                 htmlFor="email"
@@ -46,15 +66,59 @@ const Info = () => {
                   type="email"
                   id="email"
                   className="outline-none"
-                  value="kimtoan@gmail.com"
+                  value={user.email}
+                />
+              </div>
+            </div>
+            <div className="py-5 border-b">
+              <label
+                htmlFor="name"
+                className="font-semibold text-lg text-#807D7E"
+              >
+                First Name
+              </label>
+              <div className="font-semibold text-lg flex justify-between">
+                <input
+                  onChange={onChangeHandle}
+                  type="text"
+                  id="firstname"
+                  name="firstname"
+                  className="outline-none"
+                  value={user.firstname}
                 />
                 <input
+                  onClick={handleUpdateInfo}
                   type="submit"
                   value="change"
                   className="cursor-pointer"
                 />
               </div>
             </div>
+            <div className="py-5 border-b">
+              <label
+                htmlFor="name"
+                className="font-semibold text-lg text-#807D7E"
+              >
+                Last Name
+              </label>
+              <div className="font-semibold text-lg flex justify-between">
+                <input
+                  onChange={onChangeHandle}
+                  name="lastname"
+                  type="text"
+                  id="lastname"
+                  className="outline-none"
+                  value={user.lastname}
+                />
+                <input
+                  onClick={handleUpdateInfo}
+                  type="submit"
+                  value="change"
+                  className="cursor-pointer"
+                />
+              </div>
+            </div>
+
             <div className="py-5 border-b">
               <label
                 htmlFor="phone"
@@ -64,60 +128,68 @@ const Info = () => {
               </label>
               <div className="font-semibold text-lg flex justify-between">
                 <input
+                  onChange={onChangeHandle}
                   type="tel"
-                  id="phone"
+                  id="mobile"
+                  name="mobile"
                   className="outline-none"
-                  value="091412535"
+                  value={user?.mobile}
                 />
                 <input
+                  onClick={handleUpdateInfo}
                   type="submit"
                   value="change"
                   className="cursor-pointer"
                 />
               </div>
             </div>
-            <div className="py-5 border-b">
-              <label
-                htmlFor="password"
-                className="font-semibold text-lg text-#807D7E"
-              >
-                Password
-              </label>
+            <div className="py-5 border-b flex justify-between">
+              <p className="font-semibold text-lg text-#807D7E">Password</p>
               <div className="font-semibold text-lg flex justify-between">
-                <input
-                  type="password"
-                  id="password"
-                  className="outline-none"
-                  value="csdvsd"
-                />
-                <Link to={'/newpassword'} >change</Link>
+                <Link to={"/newpassword"}>change</Link>
               </div>
             </div>
           </form>
           <div>
             <div className="flex justify-between text-#3C4242 my-7">
               <h2 className="font-bold text-2xl">Address</h2>
-              <Link className="text-#3C4242 font-semibold" to={'/info/address'}>Add New</Link>
+              <Link
+                onClick={() => setCur("Add")}
+                className="text-#3C4242 font-semibold"
+                to={"/info/address"}
+              >
+                Add New
+              </Link>
             </div>
-
             <div className="grid grid-cols-2 gap-6">
-              <div className="bg-#F6F6F6 rounded-xl py-6 px-11 flex flex-col gap-5">
-                <p className="font-semibold text-xl text-#3C4242">Jhanvi shah</p>
-                <p className="text-#807D7E">8980252445</p>
-                <p className="text-#807D7E">
-                  1/4 Pragatinagar Flats, opp. jain derasar , near Jain derasar,
-                  Vijaynagar road
-                </p>
-                <div className="text-#807D7E flex gap-3">
-                  <div className="py-2 px-5 border rounded-lg">Home</div>
-                  <div className="py-2 px-5 border rounded-lg">Default billing address</div>
+              {user.address?.map((item) => (
+                <div className="bg-#F6F6F6 rounded-xl py-6 px-11 flex flex-col gap-5">
+                  <p className="font-semibold text-xl text-#3C4242">
+                    {item.firstname + " " + item.lastname}
+                  </p>
+                  <p className="text-#807D7E font-medium">{item.mobile}</p>
+                  <p className="text-#807D7E font-medium">
+                    {`${item.country}, ${item.city}, ${item.state}, ${item.streetAddress}, ${item.apartment}, ${item.deliInstruction}`}
+                  </p>
+                  <div className="text-#807D7E flex gap-3">
+                    <div className="py-2 px-5 border-2 rounded-lg font-medium">
+                      Home
+                    </div>
+                  </div>
+                  <div className="text-#3C4242 font-semibold flex gap-5">
+                    <button onClick={() => handleRemoveAddress(item._id)}>
+                      Remove
+                    </button>
+                    <Link
+                      onClick={() => setCur("Edit")}
+                      to={`/info/address/${item._id}`}
+                      className="cursor-pointer"
+                    >
+                      Edit
+                    </Link>
+                  </div>
                 </div>
-                <div className="text-#3C4242 font-semibold flex gap-5">
-                  <button>Remove</button>
-                  <Link to='/info/address' className='cursor-pointer'>Edit</Link>
-                  <button>Set as default</button>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

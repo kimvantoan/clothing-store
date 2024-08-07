@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import Layout from "../components/Layout";
-import SideBar from "../components/SideBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import SideBar from "../components/SideBar";
+import Layout from "../components/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
-const Address = () => {
+import { StoreContext } from "../context/StoreContext";
+
+const EditAddress = () => {
+  const { fetchUser } = useContext(StoreContext);
+
+  const { id } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState({
     firstname: "",
@@ -18,18 +23,11 @@ const Address = () => {
     mobile: "",
     deliInstruction: "",
   });
-
-  const onChangeHandle = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setData((data) => ({ ...data, [name]: value }));
-  };
-
-  const createAddress = async (e) => {
+  const editAddress = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:3000/address/create",
+      const res = await axios.patch(
+        `http://localhost:3000/address/update/${id}`,
         data,
         {
           headers: {
@@ -37,21 +35,37 @@ const Address = () => {
           },
         }
       );
+      fetchUser();
       toast.success(res.data.message);
       navigate("/info");
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
+  const onChangeHandle = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData((data) => ({ ...data, [name]: value }));
+  };
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/address/${id}`, {
+        headers: {
+          authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => setData(res.data.address))
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">
         <SideBar />
         <div className="w-full">
           <h1 className="font-bold text-3xl text-#3C4242 mb-5">My Info</h1>
-          <p className="font-bold text-xl text-#3C4242">Add Address</p>
+          <p className="font-bold text-xl text-#3C4242">Edit Address</p>
           <form
-            onSubmit={createAddress}
+            onSubmit={editAddress}
             className="grid grid-cols-2 gap-10 mt-12"
           >
             <div className="flex flex-col gap-2">
@@ -65,6 +79,7 @@ const Address = () => {
                 placeholder="First Name"
                 className="bg-#F6F6F6 outline-none px-5 py-4 rounded-lg"
                 required
+                value={data.firstname}
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -73,6 +88,7 @@ const Address = () => {
               </label>
               <input
                 required
+                value={data.lastname}
                 onChange={onChangeHandle}
                 name="lastname"
                 type="text"
@@ -86,6 +102,7 @@ const Address = () => {
               </label>
               <input
                 required
+                value={data.country}
                 onChange={onChangeHandle}
                 name="country"
                 type="text"
@@ -98,6 +115,7 @@ const Address = () => {
                 City*
               </label>
               <input
+                value={data.city}
                 required
                 onChange={onChangeHandle}
                 name="city"
@@ -112,6 +130,7 @@ const Address = () => {
               </label>
               <input
                 required
+                value={data.state}
                 onChange={onChangeHandle}
                 name="state"
                 type="text"
@@ -125,6 +144,7 @@ const Address = () => {
               </label>
               <input
                 required
+                value={data.streetAddress}
                 onChange={onChangeHandle}
                 name="streetAddress"
                 type="text"
@@ -138,6 +158,7 @@ const Address = () => {
               </label>
               <input
                 required
+                value={data.apartment}
                 onChange={onChangeHandle}
                 name="apartment"
                 type="text"
@@ -152,6 +173,7 @@ const Address = () => {
               </label>
               <input
                 required
+                value={data.mobile}
                 onChange={onChangeHandle}
                 name="mobile"
                 type="tel"
@@ -164,6 +186,7 @@ const Address = () => {
                 Delivery Instruction
               </label>
               <textarea
+                value={data.deliInstruction}
                 onChange={onChangeHandle}
                 name="deliInstruction"
                 type="text"
@@ -193,4 +216,4 @@ const Address = () => {
   );
 };
 
-export default Address;
+export default EditAddress;

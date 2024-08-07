@@ -15,6 +15,7 @@ import Address from "./pages/Address";
 import Checkout from "./pages/Checkout";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EditAddress from "./pages/EditAddress";
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/info" element={<Info />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/info/address" element={<Address />} />
+        <Route path="/info/address/:id" element={<EditAddress />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <ToastContainer

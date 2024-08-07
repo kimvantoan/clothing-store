@@ -7,12 +7,14 @@ const create_address = async (userId, reqData) => {
   const address = await new Address({
     user: user._id,
     mobile: reqData.mobile,
-    zipCode: reqData.zipCode,
     state: reqData.state,
     lastname: reqData.lastname,
     firstname: reqData.firstname,
+    country: reqData.country,
     city: reqData.city,
+    apartment: reqData.apartment,
     streetAddress: reqData.streetAddress,
+    deliInstruction: reqData.deliInstruction,
   }).save();
 
   user.address.push(address);
@@ -28,9 +30,9 @@ const update_address = async (idAddress, reqData) => {
   return await address.save();
 };
 
-const remove_address = async (reqData) => {
-  const address = await find_Address_By_Id(reqData._id);
-  
+const remove_address = async (idAddress) => {
+  const address = await find_Address_By_Id(idAddress);
+
   await Address.findByIdAndDelete(address._id);
 
   return address;
@@ -42,8 +44,8 @@ const find_All_Address_ByUserId = async (userId) => {
   return addresses;
 };
 
-const find_Address_By_Id = async (id) => {
-  const address = await Address.findById(id);
+const find_Address_By_Id = async (idAddress) => {
+  const address = await Address.findById(idAddress);
 
   return address;
 };

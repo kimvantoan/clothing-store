@@ -13,7 +13,17 @@ const getAllUser = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.json({ success: false, message: "Error" });
+    return res.status(500).json({ success: false, message: "Error" });
+  }
+};
+
+const getInfo = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await findUserById(userId);
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Error" });
   }
 };
 
@@ -23,11 +33,11 @@ const getUserById = async (req, res) => {
 
     const user = await findUserById(id);
 
-    res.json({ success: true, user });
+    res.status(200).json({ success: true, user });
   } catch (error) {
     console.log(error);
 
-    return res.json({ success: false, message: "Error" });
+    return res.status(500).json({ success: false, message: "Error" });
   }
 };
 
@@ -61,4 +71,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUser, getUserById, updateUser, deleteUser };
+module.exports = { getAllUser, getUserById, getInfo, updateUser, deleteUser };
