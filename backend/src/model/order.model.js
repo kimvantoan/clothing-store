@@ -41,10 +41,6 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  discount: {
-    type: Number,
-    required: true,
-  },
   totalItem: {
     type: Number,
     required: true,
@@ -54,11 +50,11 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default: "Order Placed",
   },
-  createAt:{
-    type:Date,
-    default:Date.now()
-  }
+  createAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
-const Order= mongoose.model('orders',orderSchema)
-module.exports=Order
+const Order = mongoose.model("orders", orderSchema);
+module.exports = Order;

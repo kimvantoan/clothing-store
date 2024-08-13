@@ -169,7 +169,7 @@ const Info = () => {
                   </p>
                   <p className="text-#807D7E font-medium">{item.mobile}</p>
                   <p className="text-#807D7E font-medium">
-                    {`${item.country}, ${item.city}, ${item.state}, ${item.streetAddress}, ${item.apartment}, ${item.deliInstruction}`}
+                    {`${item?.deliInstruction} ${item.apartment}, ${item.streetAddress}, ${item.state}, ${item.city}, ${item.country}`}
                   </p>
                   <div className="text-#807D7E flex gap-3">
                     <div className="py-2 px-5 border-2 rounded-lg font-medium">

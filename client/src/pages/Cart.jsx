@@ -72,15 +72,14 @@ const Cart = () => {
             <div className="grid grid-cols-2 gap-20 place-items-center pb-6 border-b border-#3C4242">
               <div className="grid grid-rows-3 text-#3C4242 font-medium text-xl">
                 <p>Sub Total</p>
-                <p>Total Discount</p>
+  
 
                 <p className="font-bold mt-5">Grand Total</p>
               </div>
               <div className="text-#3C4242 font-medium text-xl grid grid-rows-3">
-                <p>{formatPrice(cart.totalPrice)}</p>
-                <p>{formatPrice(cart.totalDiscount)}</p>
+                <p>{formatPrice(cart.totalPrice-cart.totalDiscount)}</p>
 
-                <p className="font-bold mt-5">{formatPrice(cart.totalPrice)}</p>
+                <p className="font-bold mt-5">{formatPrice(cart.totalPrice-cart.totalDiscount)}</p>
               </div>
             </div>
             <Link

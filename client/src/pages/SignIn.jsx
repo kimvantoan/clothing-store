@@ -30,7 +30,7 @@ const SignIn = () => {
           <h1 className="font-bold text-5xl text-#333333 mb-12">
             Sign In Page
           </h1>
-          <form action="" className="flex flex-col gap-5 text-#3C4242">
+          <form onSubmit={handleSignin} className="flex flex-col gap-5 text-#3C4242">
             <div className="flex flex-col">
               <label htmlFor="" className="text-lg  mb-2">
                 Email address
@@ -55,7 +55,7 @@ const SignIn = () => {
             </div>
             <p className="underline text-right">Forget your password</p>
             <div>
-              <PrimaryButton title={"Sign In"} action={handleSignin} />
+              <PrimaryButton type={'submit'} title={"Sign In"} />
             </div>
             <p>
               Don't have an account?{" "}

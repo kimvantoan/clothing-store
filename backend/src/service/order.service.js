@@ -13,7 +13,7 @@ const place_order = async (userId, reqData) => {
       size: item.size,
       quantity: item.quantity,
       price: item.price,
-      discountedPrice: item.discountedPrice,
+      discountedPrice: item.discount,
       userId: item.userId,
       color: item.color,
     }).save();
@@ -21,7 +21,7 @@ const place_order = async (userId, reqData) => {
   }
 
   let paymentDetails = {
-    method: reqData.method,
+    method: reqData.paymentMethod,
   };
 
   return await new Order({
@@ -29,26 +29,32 @@ const place_order = async (userId, reqData) => {
     orderItems,
     shippingAddress: reqData.shipAddress,
     totalPrice: cart.totalPrice,
-    totalDiscountPrice: cart.totalDiscountedPrice,
-    discount: cart.discount,
+    totalDiscountPrice: cart.totalDiscount,
     totalItem: cart.totalItem,
     paymentDetails: paymentDetails,
+    deliveryDate: Date.now() + 2 * 24 * 60 * 60 * 1000,
   }).save();
 };
 
-const find_all_order = async()=>{
-  const orders = await Order.find()
-  return orders
-}
+const find_all_order = async () => {
+  const orders = await Order.find();
+  return orders;
+};
 
 const find_orderById = async (id) => {
-  const order = await Order.findById(id).populate("orderItems").populate('shippingAddress').populate('user');
+  const order = await Order.findById(id)
+    .populate({ path: "orderItems", populate: { path: "product" } })
+    .populate("shippingAddress")
+    .populate("user");
 
   return order;
 };
 
 const find_allOrderByUser = async (userId) => {
-  const orders = await Order.find({ user:userId });
+  const orders = await Order.find({ user: userId }).populate({
+    path: "orderItems",
+    populate: { path: "product" },
+  });
 
   return orders;
 };
@@ -77,6 +83,13 @@ const delivered_order = async (id) => {
   return await order.save();
 };
 
+const cancelled_order = async (id) => {
+  const order = await find_orderById(id);
+
+  order.orderStatus = "Cancelled";
+
+  return await order.save();
+};
 module.exports = {
   place_order,
   shipped_order,
@@ -84,5 +97,6 @@ module.exports = {
   delivered_order,
   find_orderById,
   find_allOrderByUser,
-  find_all_order
+  find_all_order,
+  cancelled_order,
 };

@@ -8,16 +8,18 @@ const {
   shippedOrder,
   deliveredOrder,
   findAllOrder,
+  cancelledOrder,
 } = require("../controller/order.controller.js");
 
 const Router = express.Router();
 
 Router.post("/placeOrder", authMiddleware, placeOrder);
-Router.get("/allOrder",isAdmin, findAllOrder);
+Router.get("/allOrder", isAdmin, findAllOrder);
 Router.get("/:id", authMiddleware, findOrderById);
 Router.get("/", authMiddleware, findAllOrderByUser);
 Router.post("/inprogress", isAdmin, inprogressOrder);
 Router.post("/shipped", isAdmin, shippedOrder);
 Router.post("/delivered", isAdmin, deliveredOrder);
+Router.post("/cancelled", isAdmin, cancelledOrder);
 
 module.exports = Router;

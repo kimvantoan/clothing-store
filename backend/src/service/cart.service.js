@@ -4,7 +4,6 @@ const Product = require("../model/product.model.js");
 const create_cart = async (userId) => {
   return await new Cart({ user: userId }).save();
 };
-
 const findUserCart = async (userId) => {
   let cart = await Cart.findOne({ user: userId }).populate({
     path: "cartItem",

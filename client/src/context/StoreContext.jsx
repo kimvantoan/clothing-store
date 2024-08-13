@@ -8,6 +8,21 @@ const StoreContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
   const [user, setUser] = useState({});
+  const [orders, setOrders] = useState([]);
+
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/order", {
+        headers: {
+          authorization: localStorage.getItem("token"),
+        },
+      });
+      setOrders(res.data.orders);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/product")
@@ -114,15 +129,15 @@ const StoreContextProvider = ({ children }) => {
       toast.error(error.response.data.message);
     }
   };
-  useEffect(()=>{
-    fetchUser(),
-    fetchCart()
-  },[])
+  useEffect(() => {
+    fetchUser(), fetchCart(), fetchOrders();
+  }, []);
 
   const contextValue = {
     products,
     cart,
     user,
+    orders,
     setUser,
     handleAddToCart,
     handleRemoveCart,
@@ -130,6 +145,7 @@ const StoreContextProvider = ({ children }) => {
     handleSub,
     fetchCart,
     fetchUser,
+    fetchOrders
   };
 
   return (

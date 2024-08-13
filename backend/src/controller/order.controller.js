@@ -6,6 +6,7 @@ const {
   inprogress_order,
   find_allOrderByUser,
   find_all_order,
+  cancelled_order,
 } = require("../service/order.service");
 
 const placeOrder = async (req, res) => {
@@ -93,8 +94,23 @@ const deliveredOrder = async (req, res) => {
 
     await delivered_order(id);
 
-    res.status(200).json({ success: true, message: "Inprogress" });
+    res.status(200).json({ success: true, message: "Complete" });
   } catch (error) {
+    console.log(error);
+    
+    return res.status(500).json({ success: false, message: "Error" });
+  }
+};
+const cancelledOrder = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    await cancelled_order(id);
+
+    res.status(200).json({ success: true, message: "Cancelled" });
+  } catch (error) {
+    console.log(error);
+    
     return res.status(500).json({ success: false, message: "Error" });
   }
 };
@@ -106,5 +122,5 @@ module.exports = {
   inprogressOrder,
   shippedOrder,
   deliveredOrder,
-  findAllOrder,
+  findAllOrder,cancelledOrder
 };

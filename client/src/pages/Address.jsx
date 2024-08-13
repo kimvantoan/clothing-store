@@ -5,7 +5,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import PrimaryButton from "../components/PrimaryButton";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { StoreContext } from "../context/StoreContext";
 const Address = () => {
+  const {fetchUser} = useContext(StoreContext)
   const navigate = useNavigate();
   const [data, setData] = useState({
     firstname: "",
@@ -37,6 +39,7 @@ const Address = () => {
           },
         }
       );
+      fetchUser()
       toast.success(res.data.message);
       navigate("/info");
     } catch (error) {

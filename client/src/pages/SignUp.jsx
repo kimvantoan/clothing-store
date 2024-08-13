@@ -39,7 +39,7 @@ const SignUp = () => {
           <p className="mb-5 text-#807D7E">
             Sign up for free to access to in any of our products
           </p>
-          <form action="" className="flex flex-col gap-5 text-#3C4242">
+          <form onSubmit={handleSignup} className="flex flex-col gap-5 text-#3C4242">
             <div className="flex flex-col">
               <label htmlFor="" className="text-lg  mb-2">
                 First Name
@@ -96,7 +96,7 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <PrimaryButton title={"Sign Up"} action={handleSignup} />
+              <PrimaryButton type={'submit'} title={"Sign Up"}  />
             </div>
             <p>
               Already have an account?{" "}
