@@ -27,6 +27,6 @@ Router.post("/createProduct", isAdmin, upload.single("image"), createProduct);
 Router.get("/", getAllProduct);
 Router.get("/:id", getProductById);
 Router.delete("/delete", isAdmin, deleteProductById);
-Router.patch("/update", isAdmin, upload.single("image"), updateProduct);
+Router.patch("/update/:id", isAdmin, upload.single("image"), updateProduct);
 
 module.exports = Router;

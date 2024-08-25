@@ -10,7 +10,7 @@ const createProduct = async (req, res) => {
   try {
     const image = req.file.filename;
 
-    await create_product(req.body,image);
+    await create_product(req.body, image);
 
     res
       .status(201)
@@ -60,15 +60,18 @@ const deleteProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    await update_product(req.body,req.file.filename);
-
+    const { id } = req.params;
+    const product = await findProductById(id)
+    const image = req.file ? req.file.filename : product.image
+    
+    await update_product(id,req.body, image);
     res
       .status(200)
       .json({ success: true, message: "update product successfully" });
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({ success: false, message: "Error" });
+    return res.status(500).json({ success: false, message: error.message});
   }
 };
 module.exports = {

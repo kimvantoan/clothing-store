@@ -2,9 +2,7 @@ import React, { useContext } from "react";
 import { CiSearch, CiUser, CiHeart, CiShoppingCart } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { StoreContext } from "../context/StoreContext";
 const Header = () => {
-  const { fetchCart } = useContext(StoreContext);
 
   return (
     <div className="flex justify-between items-center px-24 py-5 gap-20  border-b-2">
