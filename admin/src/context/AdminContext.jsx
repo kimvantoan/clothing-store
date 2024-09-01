@@ -10,9 +10,10 @@ const AdminContextProvider = ({ children }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/order", {
+      const res = await axios.get("http://localhost:3000/order/allOrder", {
         headers: {
-          authorization: localStorage.getItem("token"),
+          authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdjNDNkZGMyMjAxNmQ1ZGM2MzE5YyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMxODUwN30.JzMqW0lsPhhkdNFRsN_z4e8Mkz-KNQn61X--iRiNUtY",
         },
       });
       setOrders(res.data.orders);

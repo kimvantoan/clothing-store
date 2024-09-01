@@ -47,7 +47,7 @@ const Order = () => {
               Active
             </p>
             <p
-              onClick={() => setStatus("cancelled")}
+              onClick={() => setStatus("canceled")}
               className={`${
                 status === "cancelled"
                   ? "border-#3C4242 bg-#F6F6F6 border-b-2"

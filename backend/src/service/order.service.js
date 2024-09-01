@@ -59,44 +59,16 @@ const find_allOrderByUser = async (userId) => {
   return orders;
 };
 
-const inprogress_order = async (id) => {
+const update_orderStatus =async (id,reqData)=>{
   const order = await find_orderById(id);
+  order.orderStatus = reqData.orderStatus
+  return await order.save()
+}
 
-  order.orderStatus = "Inprogress";
-
-  return await order.save();
-};
-
-const shipped_order = async (id) => {
-  const order = await find_orderById(id);
-
-  order.orderStatus = "Shipped";
-
-  return await order.save();
-};
-
-const delivered_order = async (id) => {
-  const order = await find_orderById(id);
-
-  order.orderStatus = "Delivered";
-
-  return await order.save();
-};
-
-const cancelled_order = async (id) => {
-  const order = await find_orderById(id);
-
-  order.orderStatus = "Cancelled";
-
-  return await order.save();
-};
 module.exports = {
   place_order,
-  shipped_order,
-  inprogress_order,
-  delivered_order,
   find_orderById,
   find_allOrderByUser,
   find_all_order,
-  cancelled_order,
+  update_orderStatus
 };
