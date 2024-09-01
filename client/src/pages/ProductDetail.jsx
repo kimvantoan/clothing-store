@@ -8,6 +8,7 @@ import formatPrice from "../utils/FormatPrice";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import { StoreContext } from "../context/StoreContext";
+import { toast } from "react-toastify";
 
 const ProductDetail = () => {
   const [product, setProduct] = useState({});
@@ -36,7 +37,26 @@ const ProductDetail = () => {
       setButtonDisabled(true);
     }
   }, [selectSize, selectColor]);
-
+  const AddtoWishlist = async (productId, color, size) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/wishlist/addwishlist",
+        {
+          product: productId,
+          color: color,
+          size: size,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      toast.success(res.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Layout>
       <div className="mx-24">
@@ -135,6 +155,13 @@ const ProductDetail = () => {
               <PrimaryButton
                 isButtonDisabled={isButtonDisabled}
                 title={formatPrice(product.price)}
+              />
+              <PrimaryButton
+                action={() =>
+                  AddtoWishlist(product._id, selectSize, selectColor)
+                }
+                isButtonDisabled={isButtonDisabled}
+                title={"Add to wishlist"}
               />
             </div>
           </div>

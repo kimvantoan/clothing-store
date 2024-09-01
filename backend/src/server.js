@@ -11,6 +11,7 @@ const cartRoute = require("./routes/cart.route.js");
 const cartItemRoute = require("./routes/cartItem.route.js");
 const addressRoute = require("./routes/address.route.js");
 const orderRoute = require("./routes/order.route.js");
+const wishlistRoute = require("./routes/wishlist.route.js");
 
 require("dotenv").config();
 app.use(express.static("src/uploads"))
@@ -25,6 +26,7 @@ app.use("/cart", cartRoute);
 app.use("/cartItem", cartItemRoute);
 app.use("/address", addressRoute);
 app.use("/order", orderRoute);
+app.use("/wishlist", wishlistRoute);
 
 connectDb();
 

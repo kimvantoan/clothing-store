@@ -9,7 +9,20 @@ const StoreContextProvider = ({ children }) => {
   const [cart, setCart] = useState({});
   const [user, setUser] = useState({});
   const [orders, setOrders] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
+  const fetWishlist = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/wishlist", {
+        headers: {
+          authorization: localStorage.getItem("token"),
+        },
+      });
+      setWishlist(res.data.wishlist);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchOrders = async () => {
     try {
       const res = await axios.get("http://localhost:3000/order", {
@@ -130,7 +143,7 @@ const StoreContextProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    fetchUser(), fetchCart(), fetchOrders();
+    fetchUser(), fetchCart(), fetchOrders(), fetWishlist();
   }, []);
 
   const contextValue = {
@@ -145,7 +158,10 @@ const StoreContextProvider = ({ children }) => {
     handleSub,
     fetchCart,
     fetchUser,
-    fetchOrders
+    fetchOrders,
+    wishlist,
+    setWishlist,
+    fetWishlist
   };
 
   return (

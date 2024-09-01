@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 import formatPrice from '../utils/FormatPrice'
 const ProductItem = ({product}) => {
   return (
-    <div className="relative rounded-lg">
-      <div className="absolute p-2 bg-white rounded-full top-6 right-6 cursor-pointer border-2">
-        <CiHeart />
-      </div>
+    <div className="rounded-lg"> 
       <Link to={`/products/${product._id}`} className="inline-block cursor-pointer w-72">
         <div className="rounded-xl overflow-hidden h-96 mb-4">
           <img src={`http://localhost:3000/${product.image}`} className="size-full" alt="" />
