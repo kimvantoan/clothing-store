@@ -20,6 +20,7 @@ const ProductDetail = () => {
   const { handleAddToCart } = useContext(StoreContext);
   const sizes = product.sizes;
   const colors = product.colors;
+
   const reviews = product.reviews;
   useEffect(() => {
     axios
@@ -57,35 +58,18 @@ const ProductDetail = () => {
       console.log(error);
     }
   };
+  console.log(selectColor);
+
   return (
     <Layout>
       <div className="mx-24">
         <div className="flex mb-10 gap-20">
-          <div className="flex items-center flex-1 gap-8">
-            <div className="flex flex-col gap-5">
-              <img
-                src={`http://localhost:3000/${product.image}`}
-                className="size-24 rounded-lg"
-                alt=""
-              />
-              <img
-                src={`http://localhost:3000/${product.image}`}
-                className="size-24 rounded-lg"
-                alt=""
-              />
-              <img
-                src={`http://localhost:3000/${product.image}`}
-                className="size-24 rounded-lg"
-                alt=""
-              />
-            </div>
-            <div className="size-full">
-              <img
-                src={`http://localhost:3000/${product.image}`}
-                className="size-full"
-                alt=""
-              />
-            </div>
+          <div className="w-1/3">
+            <img
+              src={`http://localhost:3000/${product.image}`}
+              className="size-full"
+              alt=""
+            />
           </div>
 
           <div className="flex flex-col mt-10 flex-1">
@@ -132,14 +116,33 @@ const ProductDetail = () => {
               <p className="font-semibold text-lg mt-9 mb-6">Select Colours</p>
               <ul className="flex gap-5">
                 {colors?.map((color) => (
-                  <li
-                    onClick={() => setSelectColor(`${color}`)}
-                    className={`${
-                      selectColor === `${color}`
-                        ? "border-2  border-black "
-                        : ""
-                    } bg-${color}-500 rounded-full border cursor-pointer size-10`}
-                  ></li>
+                  <div className="flex items-center justify-center" key={color}>
+                    <input
+                      type="radio"
+                      id={`radio-${color}`} // Đảm bảo id là duy nhất
+                      name="color" // Cùng tên để tạo nhóm
+                      value={color} // Giá trị của radio
+                      className="hidden"
+                      checked={selectColor === color} // Kiểm tra xem màu này có được chọn không
+                      onChange={() => setSelectColor(color)} // Cập nhật màu được chọn
+                    />
+                    <label
+                      htmlFor={`radio-${color}`} // Kết nối với input
+                      className="relative cursor-pointer"
+                    >
+                      <span
+                        style={{ backgroundColor: color }}
+                        className={`inline-block size-8 rounded-full border-2 border-gray-500 align-middle mr-2 transition-transform duration-200`}
+                      ></span>
+                    </label>
+
+                    <style jsx>{`
+                      input[type="radio"]:checked + label span {
+                        background-color: ${color};
+                        transform: scale(1.3);
+                      }
+                    `}</style>
+                  </div>
                 ))}
               </ul>
             </div>

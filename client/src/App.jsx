@@ -25,9 +25,9 @@ const App = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/newpassword" element={<NewPassword />} />
-        <Route path="/shop" element={<ProductList />} />
-        <Route path="/men" element={<ProductList />} />
-        <Route path="/women" element={<ProductList />} />
+        <Route path="/shop" element={<ProductList title='All clothing' category="both"/>} />
+        <Route path="/men" element={<ProductList title="Men's clothing" category="men"/>} />
+        <Route path="/women" element={<ProductList title="Women's clothing" category="women"/>} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/order" element={<Order />} />

@@ -6,6 +6,7 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+  const [listProduct, setListProduct] = useState([]);
   const [cart, setCart] = useState({});
   const [user, setUser] = useState({});
   const [orders, setOrders] = useState([]);
@@ -161,7 +162,10 @@ const StoreContextProvider = ({ children }) => {
     fetchOrders,
     wishlist,
     setWishlist,
-    fetWishlist
+    setProducts,
+    fetWishlist,
+    listProduct,
+    setListProduct,
   };
 
   return (

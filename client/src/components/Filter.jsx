@@ -1,12 +1,83 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
+import { StoreContext } from "../context/StoreContext";
+import PrimaryButton from "../components/PrimaryButton";
+import { toast } from "react-toastify";
 const Filter = () => {
+  const { products, setListProduct } = useContext(StoreContext);
+
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+
   const [openPrice, setopenPrice] = useState(true);
   const [openColor, setopenColor] = useState(true);
   const [openSize, setopenSize] = useState(true);
-  const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
+
+  const listcolor = Array.from(
+    new Set(products.map((item) => item.colors).flat())
+  );
+  const listsize = Array.from(
+    new Set(products.map((item) => item.sizes).flat())
+  );
+  const listcategory = Array.from(
+    new Set(products.map((item) => item.category.name).flat())
+  );
+
+  const handleColorChange = (e) => {
+    const color = e.target.value;
+    if (e.target.checked) {
+      setSelectedColors([...selectedColors, color]);
+    } else {
+      setSelectedColors(selectedColors.filter((c) => c !== color));
+    }
+  };
+
+  const handleSizeChange = (e) => {
+    const size = e.target.value;
+    if (e.target.checked) {
+      setSelectedSizes([...selectedSizes, size]);
+    } else {
+      setSelectedSizes(selectedSizes.filter((s) => s !== size));
+    }
+  };
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    if (e.target.checked) {
+      setSelectedCategory([...selectedCategory, category]);
+    } else {
+      setSelectedCategory(selectedCategory.filter((s) => s !== category));
+    }
+  };
+
+  const filteredProducts = products.filter((product) => {
+    return (
+      (maxPrice > 0
+        ? product.price - product.discount >= minPrice &&
+          product.price - product.discount <= maxPrice
+        : true) &&
+      (selectedCategory.length !== 0
+        ? selectedCategory.includes(product.category.name)
+        : true) &&
+      (selectedColors.length !== 0
+        ? product.colors.some((c) => selectedColors.includes(c))
+        : true) &&
+      (selectedSizes.length !== 0
+        ? product.sizes.some((c) => selectedSizes.includes(c))
+        : true)
+    );
+  });
+  const handleFilter = () => {
+    if (filteredProducts.length === 0) {
+      toast.info("No products found");
+    } else {
+      setListProduct(filteredProducts);
+    }
+  };
+
   return (
     <div className="px-7 border-2 w-80">
       <div className="flex py-5 items-center justify-between  text-#807D7E  text-2xl">
@@ -18,18 +89,17 @@ const Filter = () => {
 
       <div>
         <ul className="flex flex-col gap-4 font-semibold text-#807D7E py-10">
-          <li className="flex justify-between">
-            <span>Tops</span>
-            <input className="w-4 h-4" type="checkbox" />
-          </li>
-          <li className="flex justify-between">
-            <span>Printed T-shirts</span>
-            <input className="w-4 h-4" type="checkbox" />
-          </li>
-          <li className="flex justify-between">
-            <span>Plain T-shirts</span>
-            <input className="w-4 h-4" type="checkbox" />
-          </li>
+          {listcategory.map((item) => (
+            <li className="flex justify-between">
+              <label htmlFor="">{item}</label>
+              <input
+                onChange={handleCategoryChange}
+                value={item}
+                className="w-4 h-4"
+                type="checkbox"
+              />
+            </li>
+          ))}
         </ul>
       </div>
       <hr />
@@ -48,11 +118,21 @@ const Filter = () => {
         >
           <div className="border-2 rounded-lg w-1/2 flex items-center py-2 pl-4 gap-1 text-#3C4242 font-medium">
             $
-            <input type="number" className="outline-none w-full" />
+            <input
+              type="number"
+              value={minPrice}
+              onChange={(e) => setMinPrice(Number(e.target.value))}
+              className="outline-none w-full"
+            />
           </div>
           <div className="border-2 rounded-lg w-1/2  flex items-center py-2 pl-4 gap-1 text-#3C4242 font-medium">
             $
-            <input type="number" className="outline-none w-full" />
+            <input
+              type="number"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              className="outline-none w-full"
+            />
           </div>
         </div>
       </div>
@@ -65,171 +145,26 @@ const Filter = () => {
           Colors
           <IoIosArrowDown className={`${openColor ? "rotate-180" : ""}`} />
         </button>
-        <div className={`${openColor ? " grid" : "hidden"} grid-cols-4 gap-5 py-5`}>
-          <div
-            onClick={() => setColor("Purple")}
-            className="flex flex-col items-center"
-          >
-            <button className={`w-9 h-9 bg-purple-500 rounded-xl`}></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Purple" ? "text-purple-500" : ""
-              } text-sm`}
-            >
-              Purple
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Black")}
-            className="flex flex-col items-center"
-          >
-            <button className={`w-9 h-9 bg-black rounded-xl`}></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Black" ? "text-black" : ""
-              } text-sm`}
-            >
-              Black
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Red")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-red-500 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Red" ? "text-red-500" : ""
-              } text-sm`}
-            >
-              Red
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Orange")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-orange-500 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Orange" ? "text-orange-500" : ""
-              } text-sm`}
-            >
-              Orange
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Blue")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-blue-500 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 text-sm ${
-                color === "Blue" ? "text-blue-500" : ""
-              }`}
-            >
-              Blue
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("White")}
-            className="flex flex-col items-center"
-          >
-            <button
-              className={`w-9 h-9 bg-white rounded-xl border ${
-                color === "White" ? "border-2 border-black" : ""
-              }`}
-            ></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "White" ? "text-#3C4242" : ""
-              } text-sm`}
-            >
-              White
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Green")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-green-500 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Green" ? "text-green-500" : ""
-              } text-sm`}
-            >
-              Green
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Yellow")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-yellow-500 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Yellow" ? "text-yellow-500" : ""
-              } text-sm`}
-            >
-              Yellow
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Amber")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-amber-500 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Amber" ? "text-amber-500" : ""
-              } text-sm`}
-            >
-              Amber
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Gray")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-gray-500 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Gray" ? "text-black" : ""
-              } text-sm`}
-            >
-              Gray
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Pink")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-pink-500 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Pink" ? "text-pink-500" : ""
-              } text-sm`}
-            >
-              Pink
-            </p>
-          </div>
-          <div
-            onClick={() => setColor("Navi")}
-            className="flex flex-col items-center"
-          >
-            <button className="w-9 h-9 bg-blue-700 rounded-xl "></button>
-            <p
-              className={`font-semibold text-#8A8989 ${
-                color === "Navi" ? "text-blue-700" : ""
-              } text-sm`}
-            >
-              Navi
-            </p>
-          </div>
+        <div
+          className={`${openColor ? " grid" : "hidden"} grid-cols-4 gap-5 py-5`}
+        >
+          {listcolor.map((item) => (
+            <div className="flex flex-col items-center">
+              <label htmlFor="" className="text-lg font-medium">
+                {item}
+              </label>
+              <input
+                type="checkbox"
+                className="size-6"
+                value={item}
+                onChange={handleColorChange}
+              />
+            </div>
+          ))}
         </div>
       </div>
       <hr />
-      <div>
+      <div className="mb-4">
         <button
           onClick={() => setopenSize(!openSize)}
           className="py-4 flex items-center justify-between w-full font-semibold text-#807D7E text-2xl"
@@ -238,80 +173,22 @@ const Filter = () => {
           <IoIosArrowDown className={`${openSize ? "rotate-180" : ""}`} />
         </button>
         <div className={`${openSize ? "grid" : "hidden"} grid-cols-3 gap-2`}>
-          <button
-            onClick={() => setSize("XXS")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "XXS" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            XXS
-          </button>
-          <button
-            onClick={() => setSize("XL")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "XL" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            XL
-          </button>
-          <button
-            onClick={() => setSize("XS")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "XS" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            XS
-          </button>
-          <button
-            onClick={() => setSize("S")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "S" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            S
-          </button>
-          <button
-            onClick={() => setSize("M")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "M" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            M
-          </button>
-          <button
-            onClick={() => setSize("L")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "L" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            L
-          </button>
-          <button
-            onClick={() => setSize("XXL")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "XXL" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            XXL
-          </button>
-          <button
-            onClick={() => setSize("3XL")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "3XL" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            3XL
-          </button>
-          <button
-            onClick={() => setSize("4XL")}
-            className={`py-2 border-2 rounded-lg text-center text-sm text-#3C4242 font-medium ${
-              size === "4XL" ? "text-white bg-#2A2F2F border-#2A2F2F" : ""
-            }`}
-          >
-            4XL
-          </button>
+          {listsize.map((item) => (
+            <div className="flex flex-col items-center">
+              <label htmlFor="" className="text-lg font-medium">
+                {item}
+              </label>
+              <input
+                type="checkbox"
+                className="size-6"
+                value={item}
+                onChange={handleSizeChange}
+              />
+            </div>
+          ))}
         </div>
       </div>
+      <PrimaryButton title="Accept" action={handleFilter} />
     </div>
   );
 };

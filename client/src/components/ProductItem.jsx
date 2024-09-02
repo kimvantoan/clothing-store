@@ -1,5 +1,4 @@
 import React from "react";
-import { CiHeart } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import formatPrice from '../utils/FormatPrice'
 const ProductItem = ({product}) => {

@@ -77,7 +77,12 @@ const findProductById = async (productId) => {
 };
 
 const findAllProduct = async () => {
-  return await Product.find().populate("category");
+  return await Product.find().populate({
+    path: "category",
+    populate: {
+      path: "parentCategory",
+    },
+  });
 };
 
 module.exports = {
@@ -86,4 +91,4 @@ module.exports = {
   update_product,
   findProductById,
   findAllProduct,
-}; 
+};
