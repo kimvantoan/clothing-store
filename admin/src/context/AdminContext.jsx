@@ -5,7 +5,7 @@ export const AdminContext = createContext(null);
 
 const AdminContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [user, setUser] = useState({});
+  const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
@@ -30,28 +30,28 @@ const AdminContextProvider = ({ children }) => {
     }
   };
 
-
-  const fetchUser = () => {
+  const fetchUsers = () => {
     axios
-      .get("http://localhost:3000/user/info", {
+      .get("http://localhost:3000/user", {
         headers: {
-          authorization: localStorage.getItem("token"),
+          authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdjNDNkZGMyMjAxNmQ1ZGM2MzE5YyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMxODUwN30.JzMqW0lsPhhkdNFRsN_z4e8Mkz-KNQn61X--iRiNUtY",
         },
       })
-      .then((res) => setUser(res.data.user))
+      .then((res) => setUsers(res.data.users))
       .catch((error) => console.log(error));
   };
-
+  
   useEffect(() => {
-    fetchUser(), fetchOrders(), fetchProducts();
+    fetchUsers(), fetchOrders(), fetchProducts();
   }, []);
 
   const contextValue = {
     products,
-    user,
+    users,
     orders,
-    setUser,
-    fetchUser,
+    setUsers,
+    fetchUsers,
     fetchOrders,
     fetchProducts,
   };

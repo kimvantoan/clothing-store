@@ -1,10 +1,11 @@
 const Order = require("../model/order.model.js");
 const OrderItem = require("../model/orderItem.model.js");
 const { findUserCart } = require("./cart.service");
+const { findUserById } = require("./user.service.js");
 
 const place_order = async (userId, reqData) => {
   let orderItems = [];
-
+  const user = await findUserById(userId);
   const cart = await findUserCart(userId);
 
   for (let item of cart.cartItem) {
@@ -24,7 +25,7 @@ const place_order = async (userId, reqData) => {
     method: reqData.paymentMethod,
   };
 
-  return await new Order({
+  const order = await new Order({
     user: userId,
     orderItems,
     shippingAddress: reqData.shipAddress,
@@ -34,6 +35,12 @@ const place_order = async (userId, reqData) => {
     paymentDetails: paymentDetails,
     deliveryDate: Date.now() + 2 * 24 * 60 * 60 * 1000,
   }).save();
+
+  user.orders.push(order._id);
+
+  await user.save();
+
+  return order;
 };
 
 const find_all_order = async () => {
@@ -59,16 +66,16 @@ const find_allOrderByUser = async (userId) => {
   return orders;
 };
 
-const update_orderStatus =async (id,reqData)=>{
+const update_orderStatus = async (id, reqData) => {
   const order = await find_orderById(id);
-  order.orderStatus = reqData.orderStatus
-  return await order.save()
-}
+  order.orderStatus = reqData.orderStatus;
+  return await order.save();
+};
 
 module.exports = {
   place_order,
   find_orderById,
   find_allOrderByUser,
   find_all_order,
-  update_orderStatus
+  update_orderStatus,
 };

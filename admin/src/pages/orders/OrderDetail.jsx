@@ -89,7 +89,7 @@ const OrderDetail = () => {
           <div className="grid grid-cols-4">
             <p className="font-medium">Total Amount</p>
             <p className="text-gray-400 col-span-3">
-              {formatPrice(order.totalPrice)}
+              {formatPrice(order.totalPrice-order.totalDiscountPrice)}
             </p>
           </div>
           <div className="grid grid-cols-4">

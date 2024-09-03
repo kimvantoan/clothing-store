@@ -81,22 +81,24 @@ const ListOrder = () => {
             Delivered
           </li>
         </ul>
-        <div className=" shadow rounded-lg">
-          <div className="grid grid-cols-5 bg-gray-100 px-5 ">
+        <div className="shadow rounded-lg">
+          <div className="grid grid-cols-6 bg-gray-100 px-5 ">
             <p className="col-span-2">ID</p>
             <p>Order Date</p>
+            <p>TOTAL ITEM</p>
             <p>TOTAL PRICE</p>
             <p>Status</p>
           </div>
           {orderActive.map((order) => (
             <Link
               to={`/orders/${order._id}`}
-              className="grid grid-cols-5 border-b hover:bg-gray-100"
+              className="grid grid-cols-6 border-b hover:bg-gray-100"
             >
               <div className="col-span-2 flex gap-3">
                 <p className="text-lg">{order._id}</p>
               </div>
               <p>{formatDate(order.orderDate)}</p>
+              <p>{order.orderItems.length}</p>
               <p>{formatPrice(order.totalPrice)}</p>
               <p
                 className={`px-3 py-2 w-fit my-3 rounded-lg font-semibold ${

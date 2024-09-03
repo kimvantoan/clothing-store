@@ -17,14 +17,14 @@ const Order = () => {
       item.orderStatus === "Inprogress" ||
       item.orderStatus === "Shipped"
   );
-  const orderCancel = orders.filter((item) => item.orderStatus === "Cancelled");
+  const orderCancel = orders.filter((item) => item.orderStatus === "Canceled");
   const orderComplete = orders.filter(
     (item) => item.orderStatus === "Delivered"
   );
   const order =
     status === "active"
       ? orderActive
-      : status === "cancelled"
+      : status === "canceled"
       ? orderCancel
       : status === "completed"
       ? orderComplete
@@ -49,12 +49,12 @@ const Order = () => {
             <p
               onClick={() => setStatus("canceled")}
               className={`${
-                status === "cancelled"
+                status === "canceled"
                   ? "border-#3C4242 bg-#F6F6F6 border-b-2"
                   : ""
               } cursor-pointer  py-3 px-12 rounded-t-xl `}
             >
-              Cancelled
+              Canceled
             </p>
             <p
               onClick={() => setStatus("completed")}

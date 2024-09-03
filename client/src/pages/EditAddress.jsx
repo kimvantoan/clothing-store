@@ -57,6 +57,7 @@ const EditAddress = () => {
       .then((res) => setData(res.data.address))
       .catch((error) => console.log(error));
   }, []);
+  
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">

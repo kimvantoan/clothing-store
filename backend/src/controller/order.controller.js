@@ -65,64 +65,12 @@ const findAllOrderByUser = async (req, res) => {
   }
 };
 
-const updateStatus = async (req,res)=>{
+const updateStatus = async (req, res) => {
   try {
     const { id } = req.body;
-    await update_orderStatus(id,req.body)
+    await update_orderStatus(id, req.body);
     res.status(200).json({ success: true, message: "update successfully" });
-    
   } catch (error) {
-    return res.status(500).json({ success: false, message: "Error" });
-    
-  }
-}
-const inprogressOrder = async (req, res) => {
-  try {
-    const { id } = req.body;
-
-    await inprogress_order(id);
-
-    res.status(200).json({ success: true, message: "Inprogress" });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: "Error" });
-  }
-};
-
-const shippedOrder = async (req, res) => {
-  try {
-    const { id } = req.body;
-
-    await shipped_order(id);
-
-    res.status(200).json({ success: true, message: "Shipped" });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: "Error" });
-  }
-};
-
-const deliveredOrder = async (req, res) => {
-  try {
-    const { id } = req.body;
-
-    await delivered_order(id);
-
-    res.status(200).json({ success: true, message: "Complete" });
-  } catch (error) {
-    console.log(error);
-    
-    return res.status(500).json({ success: false, message: "Error" });
-  }
-};
-const cancelledOrder = async (req, res) => {
-  try {
-    const { id } = req.body;
-
-    await cancelled_order(id);
-
-    res.status(200).json({ success: true, message: "Cancelled" });
-  } catch (error) {
-    console.log(error);
-    
     return res.status(500).json({ success: false, message: "Error" });
   }
 };
@@ -131,8 +79,7 @@ module.exports = {
   placeOrder,
   findOrderById,
   findAllOrderByUser,
-  inprogressOrder,
-  shippedOrder,
-  deliveredOrder,
-  findAllOrder,cancelledOrder,updateStatus
+
+  findAllOrder,
+  updateStatus,
 };

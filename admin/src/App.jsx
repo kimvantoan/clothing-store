@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProduct from "./pages/products/EditProduct";
 import ListOrder from "./pages/orders/ListOrder";
 import OrderDetail from "./pages/orders/OrderDetail";
+import ListCustomer from "./pages/customer/ListCustomer";
+import InforCustomer from "./pages/customer/InforCustomer";
 const App = () => {
   return (
     <div>
@@ -16,6 +18,8 @@ const App = () => {
         <Route path="/products/edit/:id" element={<EditProduct />} />
         <Route path="/orders" element={<ListOrder />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
+        <Route path="/customers" element={<ListCustomer />} />
+        <Route path="/customers/:id" element={<InforCustomer />} />
       </Routes>
       <ToastContainer
         position="top-center"

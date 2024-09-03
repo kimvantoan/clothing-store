@@ -37,6 +37,12 @@ const userSchema = new mongoose.Schema({
       ref: "payment_information",
     },
   ],
+  orders:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "orders",
+    },
+  ],
   ratings: [
     {
       type: mongoose.Schema.Types.ObjectId,

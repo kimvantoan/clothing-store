@@ -3,6 +3,7 @@ const {
   findUserById,
   update_User,
   delete_User,
+  admin_update,
 } = require("../service/user.service.js");
 
 const getAllUser = async (req, res) => {
@@ -54,16 +55,27 @@ const updateUser = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+const adminUpdate = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await admin_update(id, req.body);
+
+    res.status(200).json({ success: true, message: "Updated" });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 const deleteUser = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { id } = req.body;
 
-    await delete_User(userId);
+    await delete_User(id);
 
-    res
-      .status(200)
-      .json({ success: true, message: "delete user successfully" });
+    res.status(200).json({ success: true, message: "Deleted" });
   } catch (error) {
     console.log(error);
 
@@ -71,4 +83,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUser, getUserById, getInfo, updateUser, deleteUser };
+module.exports = { getAllUser, getUserById, getInfo, updateUser, deleteUser ,adminUpdate};

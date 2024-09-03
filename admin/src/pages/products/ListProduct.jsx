@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/SideBar";
 import formatPrice from "../../utils/FormatPrice";
@@ -9,7 +9,7 @@ import { AdminContext } from "../../context/AdminContext";
 import { toast } from "react-toastify";
 const ListProduct = () => {
   const { products, fetchProducts } = useContext(AdminContext);
-  
+
   const handleRemove = async (id) => {
     try {
       const res = await axios.delete("http://localhost:3000/product/delete", {
@@ -27,9 +27,8 @@ const ListProduct = () => {
     }
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     fetchProducts();
-    
   }, [products]);
   return (
     <div className="flex">
@@ -68,7 +67,10 @@ const ListProduct = () => {
               <p>{product.quantity} in stock</p>
               <div>
                 <p className="mb-3">Old Price: {formatPrice(product.price)}</p>
-                <p>New Price: {formatPrice(product.price-parseInt(product.discount))}</p>
+                <p>
+                  New Price:{" "}
+                  {formatPrice(product.price - parseInt(product.discount))}
+                </p>
               </div>
               <p>{product.sold}</p>
               <div className="flex h-fit gap-3">

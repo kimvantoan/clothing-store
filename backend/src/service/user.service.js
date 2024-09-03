@@ -34,7 +34,7 @@ const findUserById = async (id) => {
 
 const findAllUser = async () => {
   const users = await User.find();
-  return users;
+  return users.filter(user=>(user.role==='CUSTOMER'));
 };
 
 const update_User = async (userId, reqData) => {
@@ -42,10 +42,23 @@ const update_User = async (userId, reqData) => {
   return newUser;
 };
 
-const delete_User = async (userId, reqData) => {
+const admin_update = async (id, reqData) => {
+  const user = await User.findById(id);
+
+  user.firstname = reqData.firstname || user.firstname;
+  user.lastname = reqData.lastname || user.lastname;
+  user.mobile = reqData.mobile || user.mobile;
+
+  const updatedUser = await user.save();
+  return updatedUser;
+};
+
+
+const delete_User = async (userId) => {
   await User.findByIdAndDelete(userId);
 };
 module.exports = {
+  admin_update,
   createUser,
   findUserByEmail,
   findAllUser,
