@@ -50,6 +50,18 @@ const SideBar = () => {
         <FaCartShopping className=" size-6" />
         <p className="font-semibold text-xl ">Orders</p>
       </NavLink>
+      <NavLink
+        to={"/categories"}
+        className={({ isActive }) => {
+          return (
+            (isActive ? "bg-#4D5761 text-white " : "text-#9DA4AE ") +
+            "flex gap-4 px-4 py-2 items-center rounded-lg"
+          );
+        }}
+      >
+        <FaCartShopping className=" size-6" />
+        <p className="font-semibold text-xl ">Categories</p>
+      </NavLink>
     </div>
   );
 };

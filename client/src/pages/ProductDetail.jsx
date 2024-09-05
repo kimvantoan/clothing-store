@@ -18,8 +18,6 @@ const ProductDetail = () => {
   const [selectColor, setSelectColor] = useState("");
   const [productDesc, setProductDesc] = useState("desc");
   const { handleAddToCart } = useContext(StoreContext);
-  const sizes = product.sizes;
-  const colors = product.colors;
 
   const reviews = product.reviews;
   useEffect(() => {
@@ -58,8 +56,7 @@ const ProductDetail = () => {
       console.log(error);
     }
   };
-  console.log(selectColor);
-
+  
   return (
     <Layout>
       <div className="mx-24">
@@ -100,7 +97,7 @@ const ProductDetail = () => {
             <div>
               <p className="font-semibold text-lg mt-9 mb-6">Select Size</p>
               <ul className="flex gap-5 text-sm font-medium text-#3C4242">
-                {sizes?.map((size) => (
+                {product?.sizes?.map((size) => (
                   <li
                     onClick={() => setSelectSize(`${size}`)}
                     className={`${
@@ -115,19 +112,19 @@ const ProductDetail = () => {
             <div>
               <p className="font-semibold text-lg mt-9 mb-6">Select Colours</p>
               <ul className="flex gap-5">
-                {colors?.map((color) => (
+                {product.colors?.map((color) => (
                   <div className="flex items-center justify-center" key={color}>
                     <input
                       type="radio"
-                      id={`radio-${color}`} // Đảm bảo id là duy nhất
-                      name="color" // Cùng tên để tạo nhóm
-                      value={color} // Giá trị của radio
+                      id={`radio-${color}`} 
+                      name="color" 
+                      value={color} 
                       className="hidden"
-                      checked={selectColor === color} // Kiểm tra xem màu này có được chọn không
-                      onChange={() => setSelectColor(color)} // Cập nhật màu được chọn
+                      checked={selectColor === color}
+                      onChange={() => setSelectColor(color)} 
                     />
                     <label
-                      htmlFor={`radio-${color}`} // Kết nối với input
+                      htmlFor={`radio-${color}`} 
                       className="relative cursor-pointer"
                     >
                       <span

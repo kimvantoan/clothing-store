@@ -10,14 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const AddProduct = () => {
   const navigate = useNavigate();
-  const { products } = useContext(AdminContext);
+  const { products, categories } = useContext(AdminContext);
+  const childCate = categories.filter((item) => item.level === 2);
   const [forms, setForms] = useState([]);
   const editorRef = useRef(null);
   const [data, setData] = useState({
     title: "",
     description: "",
-    firstLevelCategory: "",
-    secondLevelCategory: "",
+    category: "",
     price: 0,
     brand: "",
   });
@@ -37,10 +37,7 @@ const AddProduct = () => {
   const subForm = (id) => {
     setForms(forms.filter((form) => form.id !== id));
   };
-  
-  const categories = [
-    ...new Set(products.map((product) => product.category.name)),
-  ];
+
   const brands = [...new Set(products.map((product) => product.brand))];
 
   const handleInputChange = (index, event, key) => {
@@ -48,14 +45,14 @@ const AddProduct = () => {
       if (i === index) {
         return {
           ...stock,
-          [key]: event.target.value
+          [key]: event.target.value,
         };
       }
       return stock;
     });
     setStocks(updatedStocks);
   };
-  
+
   const onChangeHandle = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -73,11 +70,9 @@ const AddProduct = () => {
   formData.append("description", data.description);
   formData.append("price", data.price);
   formData.append("brand", data.brand);
-  formData.append("firstLevelCategory", data.firstLevelCategory);
-  formData.append("secondLevelCategory", data.secondLevelCategory);
+  formData.append("category", data.category);
   formData.append("stock", JSON.stringify(stocks));
 
-  
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     try {
@@ -180,66 +175,20 @@ const AddProduct = () => {
             <p className="font-bold px-6 py-8">Category</p>
 
             <div className="w-2/3 flex flex-col gap-3">
-              <div className="flex gap-6 text-lg">
-                <div className="flex gap-2 items-center">
-                  <label htmlFor="men">Men</label>
-                  <input
-                    onChange={onChangeHandle}
-                    className="size-5"
-                    type="radio"
-                    name="firstLevelCategory"
-                    id="men"
-                    value="men"
-                  />
-                </div>
-
-                <div className="flex gap-3 items-center">
-                  <label htmlFor="women">Women</label>
-                  <input
-                    onChange={onChangeHandle}
-                    className="size-5"
-                    type="radio"
-                    name="firstLevelCategory"
-                    id="women"
-                    value="women"
-                  />
-                </div>
-
-                <div className="flex gap-2 items-center">
-                  <label htmlFor="both">Both</label>
-                  <input
-                    onChange={onChangeHandle}
-                    className="size-5"
-                    type="radio"
-                    value="both"
-                    name="firstLevelCategory"
-                    id="both"
-                  />
-                </div>
-              </div>
               <label htmlFor="category">Select caterogy</label>
               <div className="flex">
-                <input
-                  required
-                  id="category"
-                  onChange={onChangeHandle}
-                  type="text"
-                  value={data.secondLevelCategory}
-                  name="secondLevelCategory"
-                  placeholder="new category"
-                  className="mb-5 border-2 border-r-0 outline-none rounded-lg px-3 py-2 w-full"
-                />
                 <select
-                  value={data.secondLevelCategory}
                   onChange={onChangeHandle}
-                  name="secondLevelCategory"
+                  name="category"
                   id=""
-                  className="mb-5 border-2 border-l-0  outline-none rounded-lg px-3 py-3 "
+                  className="mb-5 border-2 rounded-lg px-3 py-3 "
                 >
-                  <option value="">Select category</option>
+                  <option value="">select category</option>
 
-                  {categories.map((category) => (
-                    <option value={category}>{category}</option>
+                  {childCate.map((category) => (
+                    <option
+                      value={category._id}
+                    >{`${category?.name} for ${category?.parentCategory?.name}`}</option>
                   ))}
                 </select>
               </div>

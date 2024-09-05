@@ -24,9 +24,10 @@ const Filter = () => {
     new Set(products.map((item) => item.sizes).flat())
   );
   const listcategory = Array.from(
-    new Set(products.map((item) => item.category.name).flat())
+    new Set(products.map((item) => item.category?.name).flat())
   );
-
+  console.log(listcategory);
+  
   const handleColorChange = (e) => {
     const color = e.target.value;
     if (e.target.checked) {
@@ -60,7 +61,7 @@ const Filter = () => {
           product.price - product.discount <= maxPrice
         : true) &&
       (selectedCategory.length !== 0
-        ? selectedCategory.includes(product.category.name)
+        ? selectedCategory.includes(product.category?.name)
         : true) &&
       (selectedColors.length !== 0
         ? product.colors.some((c) => selectedColors.includes(c))

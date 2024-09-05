@@ -7,7 +7,16 @@ const AdminContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [categories, setCategories] = useState([]);
 
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/category");
+      setCategories(res.data.category);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchOrders = async () => {
     try {
       const res = await axios.get("http://localhost:3000/order/allOrder", {
@@ -41,19 +50,21 @@ const AdminContextProvider = ({ children }) => {
       .then((res) => setUsers(res.data.users))
       .catch((error) => console.log(error));
   };
-  
-  useEffect(() => {
-    fetchUsers(), fetchOrders(), fetchProducts();
-  }, []);
 
+  useEffect(() => {
+    fetchUsers(), fetchOrders(), fetchProducts(), fetchCategories();
+  }, []);
+  
   const contextValue = {
     products,
     users,
     orders,
+    categories,
     setUsers,
     fetchUsers,
     fetchOrders,
     fetchProducts,
+    fetchCategories,
   };
 
   return (

@@ -14,8 +14,8 @@ const ProductList = ({ title, category }) => {
       ? filterProduct
       : filterProduct.filter(
           (item) =>
-            item.category.parentCategory.name === category ||
-            item.category.parentCategory.name === "both"
+            item.category?.parentCategory.name === category ||
+            item.category?.parentCategory.name === "both"
         );
   return (
     <Layout>

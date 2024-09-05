@@ -9,6 +9,8 @@ import ListOrder from "./pages/orders/ListOrder";
 import OrderDetail from "./pages/orders/OrderDetail";
 import ListCustomer from "./pages/customer/ListCustomer";
 import InforCustomer from "./pages/customer/InforCustomer";
+import ListCategory from "./pages/category/ListCategory";
+import CreateCategory from "./pages/category/CreateCategory";
 const App = () => {
   return (
     <div>
@@ -18,8 +20,10 @@ const App = () => {
         <Route path="/products/edit/:id" element={<EditProduct />} />
         <Route path="/orders" element={<ListOrder />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
-        <Route path="/customers" element={<ListCustomer />} />
         <Route path="/customers/:id" element={<InforCustomer />} />
+        <Route path="/customers" element={<ListCustomer />} />
+        <Route path="/categories" element={<ListCategory />} />
+        <Route path="/categories/create" element={<CreateCategory />} />
       </Routes>
       <ToastContainer
         position="top-center"
