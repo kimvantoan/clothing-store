@@ -11,6 +11,7 @@ import ListCustomer from "./pages/customer/ListCustomer";
 import InforCustomer from "./pages/customer/InforCustomer";
 import ListCategory from "./pages/category/ListCategory";
 import CreateCategory from "./pages/category/CreateCategory";
+import EditCategory from "./pages/category/EditCategory";
 const App = () => {
   return (
     <div>
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/customers/:id" element={<InforCustomer />} />
         <Route path="/customers" element={<ListCustomer />} />
         <Route path="/categories" element={<ListCategory />} />
+        <Route path="/categories/:id" element={<EditCategory />} />
         <Route path="/categories/create" element={<CreateCategory />} />
       </Routes>
       <ToastContainer

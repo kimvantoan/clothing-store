@@ -1,29 +1,8 @@
 const Product = require("../model/product.model.js");
-const Category = require("../model/category.model.js");
 const fs = require("fs");
 
 const create_product = async (reqData, image) => {
-  // let firstLevel = await Category.findOne({ name: reqData.firstLevelCategory });
 
-  // if (!firstLevel) {
-  //   firstLevel = await new Category({
-  //     name: reqData.firstLevelCategory,
-  //     level: 1,
-  //   }).save();
-  // }
-
-  // let secondLevel = await Category.findOne({
-  //   name: reqData.secondLevelCategory,
-  //   parentCategory: firstLevel._id,
-  // });
-
-  // if (!secondLevel) {
-  //   secondLevel = await new Category({
-  //     name: reqData.secondLevelCategory,
-  //     level: 2,
-  //     parentCategory: firstLevel._id,
-  //   }).save();
-  // }
   reqData.stock = JSON.parse(reqData.stock);
 
   const sizes = reqData.stock?.map((item) => item.size);
@@ -57,7 +36,6 @@ const delete_product = async (productId) => {
 
 const update_product = async (productId, reqData, image) => {
   reqData.stock = JSON.parse(reqData.stock);
-  console.log(reqData);
   
   const product = await Product.findById(productId);
   const newProduct = await Product.findByIdAndUpdate(product._id, {

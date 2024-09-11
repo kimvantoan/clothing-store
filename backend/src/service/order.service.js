@@ -1,6 +1,7 @@
 const Order = require("../model/order.model.js");
 const OrderItem = require("../model/orderItem.model.js");
 const { findUserCart } = require("./cart.service");
+const { findProductById } = require("./product.service.js");
 const { findUserById } = require("./user.service.js");
 
 const place_order = async (userId, reqData) => {
@@ -68,6 +69,20 @@ const find_allOrderByUser = async (userId) => {
 
 const update_orderStatus = async (id, reqData) => {
   const order = await find_orderById(id);
+
+  if (
+    (order.paymentDetails.method === "Cash on delivery" ||
+      order.paymentDetails.method === "paypal") &&
+    reqData.orderStatus === "Delivered"
+  ) {
+    order.orderItems.forEach(async (e) => {
+      let product = await findProductById(e.product._id);
+
+      product.sold += e.quantity;
+      product.quantity-=e.quantity
+      await product.save();
+    });
+  }
   order.orderStatus = reqData.orderStatus;
   return await order.save();
 };

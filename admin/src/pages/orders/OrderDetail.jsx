@@ -3,11 +3,12 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import SideBar from "../../components/SideBar";
 import formatPrice from "../../utils/FormatPrice";
 import formatDate from "../../utils/FormatDate";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import ButtonSubmit from "../../components/ButtonSubmit";
 import { toast } from "react-toastify";
 const OrderDetail = () => {
+  const navigate = useNavigate()
   const { id } = useParams();
   const [order, setOrder] = useState({});
   const [status, setStatus] = useState("");
@@ -45,6 +46,7 @@ const OrderDetail = () => {
         }
       );
       toast.success(res.data.message);
+      navigate('/orders')
     } catch (error) {
       console.log(error);
     }
@@ -131,7 +133,7 @@ const OrderDetail = () => {
           </div>
           {order.orderItems?.map((item) => (
             <div className="grid grid-cols-5 place-items-center py-6 border">
-              <p>{item.product.title}</p>
+              <p>{item.product?.title}</p>
               <p>
                 Color : <span className="text-#807D7E">{item.color}</span>
               </p>
