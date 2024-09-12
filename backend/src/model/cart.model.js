@@ -21,11 +21,6 @@ const cartSchema= new mongoose.Schema({
         required:true,
         default:0
     },
-    totalDiscount:{
-        type:Number,
-        required:true,
-        default:0
-    },
 })
 
 const Cart=mongoose.model('cart',cartSchema)

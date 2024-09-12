@@ -23,14 +23,14 @@ const CartItem = ({ item }) => {
           <p className="font-medium text-sm text-#807D7E">Size : {item.size}</p>
         </div>
       </div>
-      <p className="font-bold text-lg text-#3C4242">{formatPrice(item.price-item.discount)}</p>
+      <p className="font-bold text-lg text-#3C4242">{formatPrice(item.price)}</p>
       <div className="flex gap-5 items-center font-medium text-lg bg-#F6F6F6 rounded-xl">
         <button className="px-4 py-2" onClick={()=>handleSub(item._id,item.quantity)}>-</button>
         <span>{item.quantity}</span>
         <button className="px-4 py-2" onClick={()=>handlePlus(item._id,item.quantity)}>+</button>
       </div>
       <p className="font-bold text-lg text-#BEBCBD">FREE</p>
-      <p className="font-bold text-lg text-#3C4242">{formatPrice((item.price-item.discount)*item.quantity)}</p>
+      <p className="font-bold text-lg text-#3C4242">{formatPrice((item.price)*item.quantity)}</p>
       <button>
         <IoTrashBinOutline
           onClick={() => handleRemoveCart(item._id)}

@@ -11,12 +11,12 @@ const Wishlist = () => {
   useEffect(() => {
     fetWishlist();
   }, []);
-  
+
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">
         <SideBar />
-        <div className="w-full">
+        <div className={`${wishlist.length ===0 ? 'hidden' : 'w-full'}`}>
           <h1 className="font-bold text-3xl text-#3C4242">Wishlist</h1>
           <div>
             {wishlist.map((item) => (
@@ -24,7 +24,11 @@ const Wishlist = () => {
             ))}
           </div>
         </div>
-        <div className="hidden flex-col items-center gap-10 py-20 border-2 px-9">
+        <div
+          className={`${
+            wishlist.length === 0 ? "flex" : "hidden"
+          } flex-col items-center gap-10 py-20 border-2 px-9`}
+        >
           <div className="p-14 bg-green-50 rounded-full">
             <FaRegHeart className="w-10 h-10 text-green-400" />
           </div>
@@ -36,7 +40,7 @@ const Wishlist = () => {
             of interesting products on our Shop page.
           </p>
           <Link
-            to={"/"}
+            to={"/shop"}
             className="px-12 py-3 bg-#8A33FD rounded-xl text-white text-lg font-semibold"
           >
             Continue Shopping

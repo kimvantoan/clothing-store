@@ -6,13 +6,15 @@ import formatPrice from "../utils/FormatPrice";
 import { StoreContext } from "../context/StoreContext";
 
 const Cart = () => {
-  const { cart } = useContext(StoreContext);
-  
+  const { cart, user, fetchCart } = useContext(StoreContext);
+  const discountValue = user.VIP === "1" ? 0.05 : user.VIP === "2" ? 0.1 : 0;
+  useEffect(() => {
+    fetchCart();
+  }, [cart]);
   const cartItem = cart.cartItem;
-
   return (
     <Layout>
-      <div className={`${cartItem?.length!==0 ? "block" : "hidden"}`}>
+      <div className={`${cartItem?.length !== 0 ? "block" : "hidden"}`}>
         <div
           className={`${
             localStorage.getItem("token") ? "hidden" : "block"
@@ -61,7 +63,7 @@ const Cart = () => {
               </button>
             </div>
             <Link
-              to={"/"}
+              to={"/shop"}
               className="px-8 py-3 hover:bg-#8A33FD bg-white hover:text-white text-#3C4242 font-semibold rounded-xl border-2"
             >
               Continue Shopping
@@ -72,14 +74,21 @@ const Cart = () => {
             <div className="grid grid-cols-2 gap-20 place-items-center pb-6 border-b border-#3C4242">
               <div className="grid grid-rows-3 text-#3C4242 font-medium text-xl">
                 <p>Sub Total</p>
-  
+                <p>VIP {user.VIP}</p>
 
                 <p className="font-bold mt-5">Grand Total</p>
               </div>
               <div className="text-#3C4242 font-medium text-xl grid grid-rows-3">
-                <p>{formatPrice(cart.totalPrice-cart.totalDiscount)}</p>
+                <p>{formatPrice(cart.totalPrice)}</p>
+                <p>
+                  {user.VIP === "1" ? "5%" : user.VIP === "2" ? "10%" : "0"}
+                </p>
 
-                <p className="font-bold mt-5">{formatPrice(cart.totalPrice-cart.totalDiscount)}</p>
+                <p className="font-bold mt-5">
+                  {discountValue === 0
+                    ? formatPrice(cart.totalPrice)
+                    : formatPrice(cart.totalPrice-cart.totalPrice * discountValue)}
+                </p>
               </div>
             </div>
             <Link
@@ -93,14 +102,14 @@ const Cart = () => {
       </div>
       <div
         className={`${
-          cartItem?.length===0 ? "flex" : "hidden"
+          cartItem?.length === 0 ? "flex" : "hidden"
         } flex-col bg-#F6F6F6 items-center gap-3 py-16`}
       >
         <img src="images/empty-cart.png" alt="" />
         <h1 className="font-bold text-4xl ">Your cart is empty and sad :(</h1>
         <p className="text-#807D7E">Add something to make it happy!</p>
         <Link
-          to={"/"}
+          to={"/shop"}
           className="active:opacity-85 bg-#8A33FD px-8 py-3 mt-4 text-white rounded-lg"
         >
           Continue Shopping

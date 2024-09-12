@@ -14,17 +14,14 @@ const findUserCart = async (userId) => {
 
   let totalPrice = 0;
   let totalItem = 0;
-  let totalDiscount = 0;
 
   for (let cartItem of cart.cartItem) {
     totalItem += cartItem.quantity;
-    totalPrice += cartItem.price * cartItem.quantity;
-    totalDiscount += cartItem.discount * cartItem.quantity;
+    totalPrice += cartItem.price*cartItem.quantity;
   }
 
   cart.totalPrice = totalPrice;
   cart.totalItem = totalItem;
-  cart.totalDiscount = totalDiscount;
 
   return await cart.save();
 };
@@ -53,10 +50,9 @@ const addCartItem = async (userId, reqData) => {
       size: reqData.size,
       color: reqData.color,
       quantity: 1,
-      price: product.price,
-      discount: product.discount,
+      price: product.price-product.discount,
     }).save();
-
+    
     cart.cartItem.push(cartItem);
   }
 

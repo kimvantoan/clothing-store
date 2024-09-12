@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
   mobile: {
     type: String,
   },
+
+  spent: { type: Number, default: 0 },
+  VIP: { type: String, default: 0 },
   address: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -37,7 +40,7 @@ const userSchema = new mongoose.Schema({
       ref: "payment_information",
     },
   ],
-  orders:[
+  orders: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "orders",
@@ -61,6 +64,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User=mongoose.model('users',userSchema)
+const User = mongoose.model("users", userSchema);
 
-module.exports=User
+module.exports = User;

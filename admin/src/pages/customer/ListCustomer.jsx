@@ -6,17 +6,17 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
+import formatPrice from "../../utils/FormatPrice";
 
 const ListCustomer = () => {
   const { users, fetchUsers } = useContext(AdminContext);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState([]); 
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  
   useEffect(() => {
     setFilteredUsers(
       users.filter((user) =>
@@ -27,7 +27,7 @@ const ListCustomer = () => {
 
   const handleRemove = async (id) => {
     try {
-      const res = await axios.delete("http://localhost:3003/user/delete", {
+      const res = await axios.delete("http://localhost:3000/user/delete", {
         data: {
           id: id,
         },
@@ -51,7 +51,6 @@ const ListCustomer = () => {
           <h1 className="font-bold text-3xl text-gray-800">Customers</h1>
         </div>
 
-    
         <div className="mb-6">
           <input
             type="text"
@@ -63,16 +62,17 @@ const ListCustomer = () => {
         </div>
 
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <div className="grid grid-cols-5 bg-gray-100 px-5 py-3 font-semibold text-gray-600">
+          <div className="grid grid-cols-6 bg-gray-100 px-5 py-3 font-semibold text-gray-600">
             <p className="col-span-2">NAME</p>
             <p>MOBILE</p>
-            <p>ORDERS</p>
+            <p>LEVEL</p>
+            <p>SPENT</p>
             <p>ACTION</p>
           </div>
           {filteredUsers.length > 0 ? (
             filteredUsers.map((user) => (
               <div
-                className="grid grid-cols-5 border-b py-3 px-5 hover:bg-gray-50 transition-all"
+                className="grid grid-cols-6 border-b py-3 px-5 hover:bg-gray-50 transition-all"
                 key={user._id}
               >
                 <div className="col-span-2 flex flex-col gap-1">
@@ -80,7 +80,8 @@ const ListCustomer = () => {
                   <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
                 <p className="text-gray-700">{user?.mobile}</p>
-                <p className="text-gray-700">{user?.orders?.length}</p>
+                <p className="text-gray-700">{`VIP ${parseFloat(user.VIP)}`}</p>
+                <p className="text-gray-700">{formatPrice(user?.spent)}</p>
                 <div className="flex gap-3 justify-center">
                   <Link
                     to={`/customers/${user._id}`}
@@ -100,7 +101,9 @@ const ListCustomer = () => {
               </div>
             ))
           ) : (
-            <div className="py-5 text-center text-gray-500">No customers found</div>
+            <div className="py-5 text-center text-gray-500">
+              No customers found
+            </div>
           )}
         </div>
       </div>

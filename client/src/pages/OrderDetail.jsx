@@ -44,7 +44,7 @@ const OrderDetail = () => {
             <p className="place-self-end font-semibold text-lg text-#807D7E">
               Total:{" "}
               <span className="text-#3C4242">
-                {formatPrice(order.totalPrice - order.totalDiscountPrice+5)}
+                {formatPrice(order.totalPrice - order.totalDiscountPrice + 5)}
               </span>
             </p>
             <p className=" font-semibold text-lg text-#807D7E">
@@ -61,23 +61,49 @@ const OrderDetail = () => {
 
           <div className="flex px-7 justify-between items-center mt-12 mx-32">
             <div className="flex flex-col gap-4 items-center">
-              <div className={`${order.orderStatus==='Order Placed' ? 'text-#8A33FD': 'text-#BEBCBD'}  text-xl font-bold`}>
+              <div
+                className={`${
+                  order.orderStatus === "Order Placed"
+                    ? "text-#8A33FD"
+                    : "text-#BEBCBD"
+                }  text-xl font-bold`}
+              >
                 Order Placed
               </div>
             </div>
             <div className="bg-#BEBCBD w-14 mt-2 h-0.5"></div>
             <div className="flex flex-col gap-4 items-center">
-              <div className={`${order.orderStatus==='Inprogress' ? 'text-#8A33FD': 'text-#BEBCBD'}  text-xl font-bold`}>
+              <div
+                className={`${
+                  order.orderStatus === "Inprogress"
+                    ? "text-#8A33FD"
+                    : "text-#BEBCBD"
+                }  text-xl font-bold`}
+              >
                 Inprogress
               </div>
             </div>
             <div className="bg-#BEBCBD w-14 mt-2 h-0.5"></div>
             <div className="flex flex-col gap-4 items-center">
-              <div className={`${order.orderStatus==='shipped' ? 'text-#8A33FD': 'text-#BEBCBD'}  text-xl font-bold`}>shipped</div>
+              <div
+                className={`${
+                  order.orderStatus === "shipped"
+                    ? "text-#8A33FD"
+                    : "text-#BEBCBD"
+                }  text-xl font-bold`}
+              >
+                shipped
+              </div>
             </div>
             <div className="bg-#BEBCBD w-14 mt-2 h-0.5"></div>
             <div className="flex flex-col gap-4 items-center">
-              <div className={`${order.orderStatus==='Delivered' ? 'text-#8A33FD': 'text-#BEBCBD'}  text-xl font-bold`}>
+              <div
+                className={`${
+                  order.orderStatus === "Delivered"
+                    ? "text-#8A33FD"
+                    : "text-#BEBCBD"
+                }  text-xl font-bold`}
+              >
                 Delivered
               </div>
             </div>
@@ -104,9 +130,7 @@ const OrderDetail = () => {
                   Qty : <span className="text-#807D7E">{item.quantity}</span>
                 </p>
                 <p className="font-semibold text-xl text-#807D7E">
-                  {formatPrice(
-                    item.quantity * (item.price - item.discountedPrice)
-                  )}
+                  {formatPrice(item.quantity * item.price)}
                 </p>
               </div>
             ))}

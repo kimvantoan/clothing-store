@@ -8,14 +8,14 @@ const place_order = async (userId, reqData) => {
   let orderItems = [];
   const user = await findUserById(userId);
   const cart = await findUserCart(userId);
-
+  const discountValue = user.VIP === "1" ? 0.05 : user.VIP === "2" ? 0.1 : 0;
+  const discount = discountValue * cart.totalPrice;
   for (let item of cart.cartItem) {
     const orderItem = await new OrderItem({
       product: item.product,
       size: item.size,
       quantity: item.quantity,
       price: item.price,
-      discountedPrice: item.discount,
       userId: item.userId,
       color: item.color,
     }).save();
@@ -31,7 +31,7 @@ const place_order = async (userId, reqData) => {
     orderItems,
     shippingAddress: reqData.shipAddress,
     totalPrice: cart.totalPrice,
-    totalDiscountPrice: cart.totalDiscount,
+    totalDiscountPrice: discount,
     totalItem: cart.totalItem,
     paymentDetails: paymentDetails,
     deliveryDate: Date.now() + 2 * 24 * 60 * 60 * 1000,
@@ -79,9 +79,18 @@ const update_orderStatus = async (id, reqData) => {
       let product = await findProductById(e.product._id);
 
       product.sold += e.quantity;
-      product.quantity-=e.quantity
+      product.quantity -= e.quantity;
       await product.save();
     });
+    const user = await findUserById(order.user);
+    user.spent += parseFloat(order.totalPrice - order.totalDiscountPrice);
+    user.spent >= 100 && user.spent <= 300
+      ? (user.VIP = 1)
+      : user.spent > 300
+      ? (user.VIP = 2)
+      : (user.VIP = 0);
+
+    await user.save();
   }
   order.orderStatus = reqData.orderStatus;
   return await order.save();

@@ -110,7 +110,7 @@ const ListOrder = () => {
                 </div>
                 <p className="text-gray-700">{formatDate(order.orderDate)}</p>
                 <p className="text-gray-700">{order.orderItems.length}</p>
-                <p className="text-gray-700">{formatPrice(order.totalPrice)}</p>
+                <p className="text-gray-700">{formatPrice(order.totalPrice - order.totalDiscountPrice + 5)}</p>
                 <p
                   className={`px-3 py-2 w-fit rounded-lg font-semibold ${
                     order.orderStatus === "Order Placed"

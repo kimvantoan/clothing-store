@@ -45,7 +45,7 @@ const OrderItem = ({item}) => {
               Qty : <span className="text-#807D7E">{firstItem.quantity}</span>
             </p>
             <p>
-              Total : <span className="text-#807D7E">{formatPrice((firstItem.price-firstItem.discountedPrice)*firstItem.quantity)}</span>
+              Total : <span className="text-#807D7E">{formatPrice((firstItem.price)*firstItem.quantity)}</span>
             </p>
           </div>
         </div>

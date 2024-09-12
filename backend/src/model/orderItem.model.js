@@ -22,10 +22,6 @@ const orderItemSchema =new mongoose.Schema({
     type: Number,
     required: true,
   },
-  discountedPrice: {
-    type: Number,
-    required: true,
-  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",

@@ -13,7 +13,7 @@ const Checkout = () => {
   const [showPayPal, setShowPayPal] = useState(false);
   const { user, cart } = useContext(StoreContext);
   const [paymentMethod, setPaymentMethod] = useState("");
-  
+  const discountValue = user.VIP === "1" ? 0.05 : user.VIP === "2" ? 0.1 : 0;
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
     if (event.target.value === "paypal") {
@@ -235,15 +235,19 @@ const Checkout = () => {
                   </p>
                 </div>
                 <p className="font-bold text-sm text-end text-#807D7E">
-                  {formatPrice(item.price - item.discount)}
+                  {formatPrice(item.price)}
                 </p>
               </div>
             ))}
 
             <div className="grid grid-cols-2 font-bold text-lg text-#3C4242 gap-y-4 py-4 border-b-2">
-              <p>Subtotal ({cart.totalItem})</p>
+              <p>Subtotal ({cart.totalItem})</p>   
               <p className="text-end">
-                {formatPrice(cart.totalPrice - cart.totalDiscount)}
+                {formatPrice(cart.totalPrice)}
+              </p>
+              <p>VIP</p>   
+              <p className="text-end">
+                {user.VIP === "1" ? "5%" : user.VIP === "2" ? "10%" : "0"}
               </p>
               <p>Shipping</p>
               <p className="text-end">{formatPrice(5)}</p>
@@ -251,7 +255,7 @@ const Checkout = () => {
             <div className="grid grid-cols-2 font-bold text-lg text-#3C4242 py-4">
               <p>Total</p>
               <p className="text-end">
-                {formatPrice(cart.totalPrice - cart.totalDiscount + 5)}
+                {formatPrice(cart.totalPrice-cart.totalPrice*discountValue + 5)}
               </p>
             </div>
           </div>

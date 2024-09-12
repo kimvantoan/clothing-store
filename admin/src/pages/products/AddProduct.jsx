@@ -82,7 +82,7 @@ const AddProduct = () => {
         {
           headers: {
             authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yjc3ZGJlZmZjYmFmMDM1YjhlNTQyMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMzgyMDc0MX0.3ADoS7sGJxfbmZy6GJgF8j0e5Dbxteje-XSzuB-oYnI",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTJiMjg3ZWE0YzExMTJlODhmNWQyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyNjEzMjk1MX0.hN3PI_YjSgCIJlmyXtjRhm7cf9dNAAo8gEfODHT2ntg",
           },
         }
       );

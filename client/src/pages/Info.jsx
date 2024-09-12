@@ -12,7 +12,12 @@ const Info = () => {
   const onChangeHandle = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setUser((data) => ({ ...data, [name]: value }));
+    if (name === "mobile") {
+      const result = value.replace(/[^\d]/g, "");
+      setUser((data) => ({ ...data, mobile: result }));
+    } else {
+      setUser((data) => ({ ...data, [name]: value }));
+    }
   };
 
   const handleUpdateInfo = async (e) => {
