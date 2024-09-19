@@ -16,6 +16,7 @@ import Checkout from "./pages/Checkout";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditAddress from "./pages/EditAddress";
+import ReviewForm from "./pages/ReviewForm";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/order" element={<Order />} />
         <Route path="/order/:id" element={<OrderDetail />} />
+        <Route path="/order/rate/:id" element={<ReviewForm />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/info" element={<Info />} />
         <Route path="/products/:id" element={<ProductDetail />} />

@@ -18,13 +18,22 @@ const ProductDetail = () => {
   const [selectColor, setSelectColor] = useState("");
   const [productDesc, setProductDesc] = useState("desc");
   const { handleAddToCart } = useContext(StoreContext);
-
+  const [review, setReview] = useState([]);
   const reviews = product.reviews;
   useEffect(() => {
     axios
       .get(`http://localhost:3000/product/${id}`)
       .then((res) => {
         setProduct(res.data.product);
+      })
+      .catch((error) => console.log(error));
+  }, [product]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/review/${id}`)
+      .then((res) => {
+        setReview(res.data.reviews);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -87,7 +96,7 @@ const ProductDetail = () => {
                 <IoIosStar />
                 <IoIosStar />
                 <IoIosStar />
-                <p className="text-#3C4242">{product.numberRating}</p>
+                <p className="text-#3C4242">{product.numberRating?.toFixed(1)}</p>
               </div>
               <div className="flex items-center gap-2">
                 <TfiCommentAlt />
@@ -116,15 +125,15 @@ const ProductDetail = () => {
                   <div className="flex items-center justify-center" key={color}>
                     <input
                       type="radio"
-                      id={`radio-${color}`} 
-                      name="color" 
-                      value={color} 
+                      id={`radio-${color}`}
+                      name="color"
+                      value={color}
                       className="hidden"
                       checked={selectColor === color}
-                      onChange={() => setSelectColor(color)} 
+                      onChange={() => setSelectColor(color)}
                     />
                     <label
-                      htmlFor={`radio-${color}`} 
+                      htmlFor={`radio-${color}`}
                       className="relative cursor-pointer"
                     >
                       <span
@@ -202,7 +211,7 @@ const ProductDetail = () => {
                 User Comments
               </p>
               <div className="px-0.5 h-6 text-center text-sm text-white bg-#8A33FD rounded-lg">
-                46
+                {review.length  }
               </div>
             </div>
           </div>
@@ -214,7 +223,20 @@ const ProductDetail = () => {
           >
             {product.description}
           </p>
-          <div></div>
+          <div className={`${productDesc === "comments" ? "block" : "hidden"}`}>
+            {review.map((item) => (
+              <div className="flex gap-10">
+                <h3 className="text-xl font-semibold">
+                  {item.user?.firstname + " " + item.user?.lastname}
+                </h3>
+                {/* <div>
+                  {"★".repeat(rating)} // đánh giá bằng sao
+                  {"☆".repeat(5 - rating)} // sao rỗng
+                </div> */}
+                <p>{item.review}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </Layout>

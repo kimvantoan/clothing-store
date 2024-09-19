@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import signin from "../assets/logo.png";
-
+import {toast} from 'react-toastify'
 const LoginAdmin = () => {
   const [email, setUseremail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,13 +12,14 @@ const LoginAdmin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      const res = await axios.post("http://localhost:3000/auth/loginAdmin", {
         email,
         password,
       });
-
       navigate("/products");
+      toast.success(res.data.message);
     } catch (err) {
+      toast.error(err.response.data.message);
       console.log(err)
       setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
     }

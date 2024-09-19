@@ -13,9 +13,6 @@ const OrderDetail = () => {
   useEffect(() => {
     axios
       .get(`http://localhost:3000/order/${id}`, {
-        data: {
-          id: id,
-        },
         headers: {
           authorization: localStorage.getItem("token"),
         },
@@ -24,7 +21,7 @@ const OrderDetail = () => {
       .catch((error) => console.log(error));
   }, []);
   console.log(order);
-
+  
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">
@@ -118,7 +115,7 @@ const OrderDetail = () => {
                   alt=""
                 />
                 <div className="col-span-2 place-self-start font-semibold text-xl text-#3C4242">
-                  <p>{item.product.title}</p>
+                  <p>{item.product?.title}</p>
                   <p>
                     Color : <span className="text-#807D7E">{item.color}</span>
                   </p>
@@ -136,6 +133,12 @@ const OrderDetail = () => {
             ))}
             <hr />
           </div>
+          <Link
+            className={`${order.orderStatus === "Delivered" ? "bg-#8A33FD text-white rounded-lg py-3 px-5 font-medium text-lg w-fit block" : "hidden"}`}
+            to={`/order/rate/${order._id}`}
+          >
+            Rate and Review
+          </Link>
         </div>
       </div>
     </Layout>

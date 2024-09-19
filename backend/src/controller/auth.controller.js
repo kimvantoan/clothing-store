@@ -58,4 +58,31 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const loginAdmin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if(email!== process.env.Email_admin && password !==process.env.Password_admin){
+      return res.status(400).json({ success: false, message: "you are not admin" }); 
+    }
+    const existEmail =await findUserByEmail(email) 
+
+    if (!existEmail) {
+      return res.status(400).json({ success: false, message: "Admin doesn't exist" });
+    }
+    const isMatch = await bcrypt.compare(password, existEmail.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: "wrong email or password" });
+    }
+
+    const token = createToken(existEmail._id,existEmail.role);
+  
+    res.status(200).json({ success: true, token });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ success: false, message: "Error" });
+  }
+};
+
+module.exports = { register, login,loginAdmin };

@@ -18,7 +18,7 @@ const SideBar = () => {
       <div className="flex gap-5 mb-3">
         <div className="rounded-xl border-l-4 border-#8A33FD"></div>
         <h2 className=" text-#3C4242 font-bold text-4xl">
-          Hello {user.firstname}
+          Hello {user?.firstname}
         </h2>
       </div>
       <p className="text-sm text-#807D7E mb-7">Welcome to your Account</p>

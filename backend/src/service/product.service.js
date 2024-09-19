@@ -36,6 +36,7 @@ const delete_product = async (productId) => {
 
 const update_product = async (productId, reqData, image) => {
   reqData.stock = JSON.parse(reqData.stock);
+  console.log(reqData);
   
   const product = await Product.findById(productId);
   const newProduct = await Product.findByIdAndUpdate(product._id, {

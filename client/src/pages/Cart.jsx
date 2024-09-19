@@ -7,7 +7,7 @@ import { StoreContext } from "../context/StoreContext";
 
 const Cart = () => {
   const { cart, user, fetchCart } = useContext(StoreContext);
-  const discountValue = user.VIP === "1" ? 0.05 : user.VIP === "2" ? 0.1 : 0;
+  const discountValue = user?.VIP === "1" ? 0.05 : user?.VIP === "2" ? 0.1 : 0;
   useEffect(() => {
     fetchCart();
   }, [cart]);
@@ -33,11 +33,10 @@ const Cart = () => {
         </div>
 
         <div>
-          <div className="bg-#3C4242 text-center text-white text-lg font-semibold grid grid-cols-8 px-24 py-6">
+          <div className="bg-#3C4242 text-center text-white text-lg font-semibold grid grid-cols-7 px-24 py-6">
             <p className="col-span-3 text-left">Product Details</p>
             <p>Price</p>
             <p>Quantity</p>
-            <p>shipping</p>
             <p>subtotal</p>
             <p>action</p>
           </div>
@@ -74,14 +73,14 @@ const Cart = () => {
             <div className="grid grid-cols-2 gap-20 place-items-center pb-6 border-b border-#3C4242">
               <div className="grid grid-rows-3 text-#3C4242 font-medium text-xl">
                 <p>Sub Total</p>
-                <p>VIP {user.VIP}</p>
+                <p>VIP {user?.VIP}</p>
 
                 <p className="font-bold mt-5">Grand Total</p>
               </div>
               <div className="text-#3C4242 font-medium text-xl grid grid-rows-3">
                 <p>{formatPrice(cart.totalPrice)}</p>
                 <p>
-                  {user.VIP === "1" ? "5%" : user.VIP === "2" ? "10%" : "0"}
+                  {user?.VIP === "1" ? "5%" : user?.VIP === "2" ? "10%" : "0"}
                 </p>
 
                 <p className="font-bold mt-5">

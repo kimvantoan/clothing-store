@@ -71,7 +71,7 @@ const Info = () => {
                   type="email"
                   id="email"
                   className="outline-none"
-                  value={user.email}
+                  value={user?.email}
                 />
               </div>
             </div>
@@ -89,7 +89,7 @@ const Info = () => {
                   id="firstname"
                   name="firstname"
                   className="outline-none"
-                  value={user.firstname}
+                  value={user?.firstname}
                 />
                 <input
                   onClick={handleUpdateInfo}
@@ -113,7 +113,7 @@ const Info = () => {
                   type="text"
                   id="lastname"
                   className="outline-none"
-                  value={user.lastname}
+                  value={user?.lastname}
                 />
                 <input
                   onClick={handleUpdateInfo}
@@ -167,7 +167,7 @@ const Info = () => {
               </Link>
             </div>
             <div className="grid grid-cols-2 gap-6">
-              {user.address?.map((item) => (
+              {user?.address?.map((item) => (
                 <div className="bg-#F6F6F6 rounded-xl py-6 px-11 flex flex-col gap-5">
                   <p className="font-semibold text-xl text-#3C4242">
                     {item.firstname + " " + item.lastname}

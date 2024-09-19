@@ -24,6 +24,7 @@ const EditProduct = () => {
   });
 
   const [category, setCategory] = useState({});
+
   const [stocks, setStocks] = useState([
     {
       size: "",
@@ -40,7 +41,7 @@ const EditProduct = () => {
         setData(res.data.product),
           setImage(res.data.product.image),
           setStocks(res.data.product.stock);
-        setCategory(res.data.product.category);
+        setCategory(res.data.product.category._id);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -99,26 +100,32 @@ const EditProduct = () => {
   };
   const handleEditProduct = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.patch(
-        `http://localhost:3000/product/update/${id}`,
-        formData,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yjc3ZGJlZmZjYmFmMDM1YjhlNTQyMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMzgyMDc0MX0.3ADoS7sGJxfbmZy6GJgF8j0e5Dbxteje-XSzuB-oYnI",
-          },
-        }
-      );
-      navigate("/products");
-      toast.success(res.data.message);
-    } catch (error) {
-      toast.error(error.response.data.message);
-      console.log(error);
+    if (data.discount > data.price) {
+      toast.error("Discount must not be higher than the price");
+      return;
+    } else {
+      try {
+        const res = await axios.patch(
+          `http://localhost:3000/product/update/${id}`,
+          formData,
+          {
+            headers: {
+              authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yjc3ZGJlZmZjYmFmMDM1YjhlNTQyMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMzgyMDc0MX0.3ADoS7sGJxfbmZy6GJgF8j0e5Dbxteje-XSzuB-oYnI",
+            },
+          }
+        );
+        navigate("/products");
+        toast.success(res.data.message);
+      } catch (error) {
+        toast.error(error.response.data.message);
+        console.log(error);
+      }
     }
   };
+  const current = childCate.find((item) => item._id === category);
   useEffect(() => {
-    console.log(category);
+    console.log(category._id);
   }, [category]);
   return (
     <div className="flex">
@@ -215,10 +222,14 @@ const EditProduct = () => {
                   id=""
                   className="mb-5 border-2 rounded-lg px-3 py-3 "
                 >
-                  <option value={category?.name}>{`${category?.name} for ${category?.parentCategory?.name}`}</option>
+                  <option
+                    value={category}
+                  >{`${current?.name} for ${current?.parentCategory?.name}`}</option>
 
                   {childCate.map((category) => (
-                    <option value={category._id}>{`${category?.name} for ${category?.parentCategory?.name}`}</option>
+                    <option
+                      value={category._id}
+                    >{`${category?.name} for ${category?.parentCategory?.name}`}</option>
                   ))}
                 </select>
               </div>

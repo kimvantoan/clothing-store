@@ -247,7 +247,7 @@ const Checkout = () => {
               </p>
               <p>VIP</p>   
               <p className="text-end">
-                {user.VIP === "1" ? "5%" : user.VIP === "2" ? "10%" : "0"}
+                {user.VIP === "1" ? "-5%" : user.VIP === "2" ? "-10%" : "0"}
               </p>
               <p>Shipping</p>
               <p className="text-end">{formatPrice(5)}</p>
