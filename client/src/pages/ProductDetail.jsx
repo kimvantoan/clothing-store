@@ -71,11 +71,7 @@ const ProductDetail = () => {
       <div className="mx-24">
         <div className="flex mb-10 gap-20">
           <div className="w-1/3">
-            <img
-              src={`http://localhost:3000/${product.image}`}
-              className="size-full"
-              alt=""
-            />
+            <img src={product.image} className="size-full" alt="" />
           </div>
 
           <div className="flex flex-col mt-10 flex-1">
@@ -96,7 +92,9 @@ const ProductDetail = () => {
                 <IoIosStar />
                 <IoIosStar />
                 <IoIosStar />
-                <p className="text-#3C4242">{product.numberRating?.toFixed(1)}</p>
+                <p className="text-#3C4242">
+                  {product.numberRating?.toFixed(1)}
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <TfiCommentAlt />
@@ -211,7 +209,7 @@ const ProductDetail = () => {
                 User Comments
               </p>
               <div className="px-0.5 h-6 text-center text-sm text-white bg-#8A33FD rounded-lg">
-                {review.length  }
+                {review.length}
               </div>
             </div>
           </div>

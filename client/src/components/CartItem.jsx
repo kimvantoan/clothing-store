@@ -9,7 +9,7 @@ const CartItem = ({ item }) => {
     <div className="grid grid-cols-7 py-7 border-b border-#BEBCBD items-center text place-items-center">
       <div className="flex gap-5 col-span-3 place-self-start">
         <img
-          src={`http://localhost:3000/${item.product?.image}`}
+          src={item.product?.image}
           className="rounded-xl w-24 h-28"
           alt=""
         />

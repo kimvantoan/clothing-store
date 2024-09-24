@@ -30,7 +30,7 @@ const WishItem = ({ item }) => {
       <AiOutlineClose className="w-6 h-6 cursor-pointer active:scale-95" onClick={()=>removeWish(item._id)}/>
 
       <img
-        src={`http://localhost:3000/${item.product?.image}`}
+        src={item.product?.image}
         className="w-24 h-28 rounded place-self-start"
         alt=""
       />

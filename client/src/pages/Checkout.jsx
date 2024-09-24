@@ -221,7 +221,7 @@ const Checkout = () => {
             {cart.cartItem?.map((item) => (
               <div key={item.product?.id} className="grid grid-cols-5 items-center py-4 border-b-2">
                 <img
-                  src={`http://localhost:3000/${item.product?.image}`}
+                  src={item.product?.image}
                   className="w-16 h-16 rounded overflow-hidden"
                   alt=""
                 />

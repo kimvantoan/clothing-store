@@ -110,7 +110,7 @@ const OrderDetail = () => {
             {order.orderItems?.map((item) => (
               <div className="grid grid-cols-5 place-items-center py-6 px-10 ">
                 <img
-                  src={`http://localhost:3000/${item.product?.image}`}
+                  src={item.product?.image}
                   className="w-24 h-28"
                   alt=""
                 />

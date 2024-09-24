@@ -195,7 +195,7 @@ const EditProduct = () => {
                 <img
                   src={
                     typeof image === "string"
-                      ? `http://localhost:3000/${image}`
+                      ? `${image}`
                       : URL.createObjectURL(image)
                   }
                   alt=""

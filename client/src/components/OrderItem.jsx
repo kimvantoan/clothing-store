@@ -35,7 +35,7 @@ const OrderItem = ({item}) => {
       </div>
       <div className="flex items-center justify-between">
         <div className="flex gap-6">
-          <img src={`http://localhost:3000/${firstItem.product?.image}`} className="w-20 h-24" alt="" />
+          <img src={firstItem.product?.image} className="w-20 h-24" alt="" />
           <div className="font-semibold text-#3C4242">
             <p>{firstItem.product?.title}</p>
             <p>

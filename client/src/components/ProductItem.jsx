@@ -6,7 +6,7 @@ const ProductItem = ({product}) => {
     <div className="rounded-lg"> 
       <Link to={`/products/${product._id}`} className="inline-block cursor-pointer w-72">
         <div className="rounded-xl overflow-hidden h-96 mb-4">
-          <img src={`http://localhost:3000/${product.image}`} className="size-full" alt="" />
+          <img src={product.image} className="size-full" alt="" />
         </div>  
         <div className="flex justify-between items-center ">
           <div>

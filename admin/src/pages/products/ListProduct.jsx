@@ -84,7 +84,7 @@ const ListProduct = () => {
                 <div className="col-span-2 flex gap-3 items-center">
                   <img
                     className="w-16 h-16 object-cover rounded-lg"
-                    src={`http://localhost:3000/${product.image}`}
+                    src={product.image}
                     alt={product.title}
                   />
                   <div>

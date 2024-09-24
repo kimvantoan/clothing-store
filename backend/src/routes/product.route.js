@@ -8,20 +8,21 @@ const {
 } = require("../controller/product.controller");
 const Router = express.Router();
 const { isAdmin } = require("../middleware/auth.js");
-const multer = require("multer");
+const upload = require("../middleware/multer.js");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./src/uploads");
-  },
 
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "_" + file.originalname;
-    cb(null, file.fieldname + "-" + uniqueSuffix);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./src/uploads");
+//   },
 
-const upload = multer({ storage: storage });
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now() + "_" + file.originalname;
+//     cb(null, file.fieldname + "-" + uniqueSuffix);
+//   },
+// });
+
+// const upload = multer({ storage: storage });
 
 Router.post("/createProduct", isAdmin, upload.single("image"), createProduct);
 Router.get("/", getAllProduct);

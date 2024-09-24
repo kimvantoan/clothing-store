@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { connectDb } = require("./config/db");
+const { connectCloudinary } = require('./config/cloudinary.js');
 const app = express();
 const authRoute = require("./routes/auth.route.js");
 const userRoute = require("./routes/user.route.js");
@@ -31,6 +32,7 @@ app.use("/wishlist", wishlistRoute);
 app.use("/category", categoryRoute);
 
 connectDb();
+connectCloudinary();
 
 app.listen(3000, async () => {
   console.log("clothing store listing on port: 3000");
