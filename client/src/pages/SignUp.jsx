@@ -23,8 +23,7 @@ const SignUp = () => {
         password: password,
         confirmPassword: confirmPassword,
       });
-      localStorage.setItem("token","Bearer "+ res.data.token);
-      navigate("/");
+      navigate("/signin");
     } catch (error) {
       toast.error(error.response.data.message);
     }

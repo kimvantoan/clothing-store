@@ -53,7 +53,7 @@ const updateAddress = async (req, res) => {
 
 const removeAddress = async (req, res) => {
   try {
-    const address = await find_Address_By_Id(req.body);
+    const address = await find_Address_By_Id(req.params.id);
 
     await remove_address(address._id);
 

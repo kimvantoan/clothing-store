@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { StoreContext } from "../context/StoreContext";
 const Wishlist = () => {
   const { wishlist, fetWishlist } = useContext(StoreContext);
-  console.log(wishlist);
   useEffect(() => {
     fetWishlist();
   }, []);

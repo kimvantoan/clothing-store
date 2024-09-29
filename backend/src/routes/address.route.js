@@ -8,6 +8,6 @@ Router.get('/',authMiddleware,findAllAddressByUserId)
 Router.get('/:id',authMiddleware,findAddressById)
 Router.post('/create',authMiddleware,createAddress)
 Router.patch('/update/:id',authMiddleware,updateAddress)
-Router.delete('/delete',authMiddleware,removeAddress)
+Router.delete('/delete/:id',authMiddleware,removeAddress)
 
 module.exports=Router

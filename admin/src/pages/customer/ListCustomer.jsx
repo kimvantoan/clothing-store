@@ -27,15 +27,10 @@ const ListCustomer = () => {
 
   const handleRemove = async (id) => {
     try {
-      const res = await axios.delete("http://localhost:3000/user/delete", {
-        data: {
-          id: id,
-        },
-        headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yjc3ZGJlZmZjYmFmMDM1YjhlNTQyMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMzgyMDc0MX0.3ADoS7sGJxfbmZy6GJgF8j0e5Dbxteje-XSzuB-oYnI",
-        },
-      });
+      const res = await axios.delete(
+        `http://localhost:3000/user/delete/${id}`,
+        { withCredentials: true }
+      );
       fetchUsers();
       toast.success(res.data.message);
     } catch (error) {

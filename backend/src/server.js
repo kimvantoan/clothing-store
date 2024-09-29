@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const { connectDb } = require("./config/db");
-const { connectCloudinary } = require('./config/cloudinary.js');
+const { connectCloudinary } = require("./config/cloudinary.js");
 const app = express();
 const authRoute = require("./routes/auth.route.js");
 const userRoute = require("./routes/user.route.js");
@@ -16,9 +17,14 @@ const wishlistRoute = require("./routes/wishlist.route.js");
 const categoryRoute = require("./routes/category.route.js");
 
 require("dotenv").config();
-app.use(express.static("src/uploads"))
+app.use(express.static("src/uploads"));
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+const corsOptions = {
+  origin: ["http://localhost:5173", "http://localhost:5174"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use("/auth", authRoute);
 app.use("/user", userRoute);
 app.use("/product", productRoute);

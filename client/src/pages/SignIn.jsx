@@ -11,11 +11,15 @@ const SignIn = () => {
   const handleSignin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/auth/login", {
-        email: email,
-        password: password,
-      });
-      localStorage.setItem("token","Bearer "+ res.data.token);
+      const res = await axios.post(
+        "http://localhost:3000/auth/login",
+        {
+          email: email,
+          password: password,
+        },
+        { withCredentials: true }
+      );
+
       navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
@@ -30,7 +34,10 @@ const SignIn = () => {
           <h1 className="font-bold text-5xl text-#333333 mb-12">
             Sign In Page
           </h1>
-          <form onSubmit={handleSignin} className="flex flex-col gap-5 text-#3C4242">
+          <form
+            onSubmit={handleSignin}
+            className="flex flex-col gap-5 text-#3C4242"
+          >
             <div className="flex flex-col">
               <label htmlFor="" className="text-lg  mb-2">
                 Email address
@@ -55,7 +62,7 @@ const SignIn = () => {
             </div>
             <p className="underline text-right">Forget your password</p>
             <div>
-              <PrimaryButton type={'submit'} title={"Sign In"} />
+              <PrimaryButton type={"submit"} title={"Sign In"} />
             </div>
             <p>
               Don't have an account?{" "}

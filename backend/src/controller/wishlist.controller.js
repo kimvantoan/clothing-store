@@ -26,7 +26,7 @@ const getAllWish = async (req, res) => {
 
 const deleteWish = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     await deleWish(id);
     res.status(200).json({ success: true, message:"Deleted" });
   } catch (error) {

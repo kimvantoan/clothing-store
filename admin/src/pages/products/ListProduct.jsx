@@ -10,40 +10,36 @@ import { toast } from "react-toastify";
 
 const ListProduct = () => {
   const { products, fetchProducts } = useContext(AdminContext);
-  const [searchTerm, setSearchTerm] = useState(""); // Quản lý từ khóa tìm kiếm
-  const [filteredProducts, setFilteredProducts] = useState([]); // Sản phẩm đã lọc
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [filteredProducts, setFilteredProducts] = useState([]); 
 
   useEffect(() => {
-    fetchProducts(); // Lấy sản phẩm khi component load
+    fetchProducts(); 
   }, []);
 
-  // Lọc sản phẩm dựa trên từ khóa tìm kiếm
   useEffect(() => {
     setFilteredProducts(
-      products.filter((product) =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.brand.toLowerCase().includes(searchTerm.toLowerCase())
+      products.filter(
+        (product) =>
+          product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.brand.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
   }, [searchTerm, products]);
 
-  const handleRemove = async (id) => {
-    try {
-      const res = await axios.delete("http://localhost:3000/product/delete", {
-        data: {
-          _id: id,
-        },
-        headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yjc3ZGJlZmZjYmFmMDM1YjhlNTQyMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMzgyMDc0MX0.3ADoS7sGJxfbmZy6GJgF8j0e5Dbxteje-XSzuB-oYnI",
-        },
-      });
-      fetchProducts()
-      toast.success(res.data.message);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const handleRemove = async (id) => {
+      try {
+        const res = await axios.delete(
+          `http://localhost:3000/product/delete/${id}`,
+          { withCredentials: true }
+        );
+        fetchProducts();
+        toast.success(res.data.message);
+      } catch (error) {
+        toast.error(error)
+        console.log(error);
+      }
+    };
 
   return (
     <div className="flex">
@@ -59,7 +55,6 @@ const ListProduct = () => {
           </Link>
         </div>
 
-        {/* Thanh tìm kiếm */}
         <div className="mb-4">
           <input
             type="text"
@@ -80,7 +75,10 @@ const ListProduct = () => {
           </div>
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <div className="grid grid-cols-6 border-b items-center py-3 px-5 hover:bg-gray-50 transition-all" key={product._id}>
+              <div
+                className="grid grid-cols-6 border-b items-center py-3 px-5 hover:bg-gray-50 transition-all"
+                key={product._id}
+              >
                 <div className="col-span-2 flex gap-3 items-center">
                   <img
                     className="w-16 h-16 object-cover rounded-lg"
@@ -88,14 +86,21 @@ const ListProduct = () => {
                     alt={product.title}
                   />
                   <div>
-                    <p className="text-lg font-medium text-gray-800">{product.title}</p>
+                    <p className="text-lg font-medium text-gray-800">
+                      {product.title}
+                    </p>
                     <p className="text-sm text-gray-500">{product.brand}</p>
                   </div>
                 </div>
                 <p className="text-gray-700">{product.quantity} in stock</p>
                 <div>
-                  <p className="text-sm text-gray-500 line-through">Old Price: {formatPrice(product.price)}</p>
-                  <p className="text-gray-700 font-semibold">New Price: {formatPrice(product.price - parseInt(product.discount))}</p>
+                  <p className="text-sm text-gray-500 line-through">
+                    Old Price: {formatPrice(product.price)}
+                  </p>
+                  <p className="text-gray-700 font-semibold">
+                    New Price:{" "}
+                    {formatPrice(product.price - parseInt(product.discount))}
+                  </p>
                 </div>
                 <p className="text-gray-700">{product.sold}</p>
                 <div className="flex gap-2 justify-center">
@@ -117,7 +122,9 @@ const ListProduct = () => {
               </div>
             ))
           ) : (
-            <div className="py-5 text-center text-gray-500">No products found</div>
+            <div className="py-5 text-center text-gray-500">
+              No products found
+            </div>
           )}
         </div>
       </div>

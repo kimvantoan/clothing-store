@@ -4,6 +4,6 @@ const {add_wishlish, getAllWish, deleteWish}=require('../controller/wishlist.con
 const { authMiddleware } = require('../middleware/auth.js')
 Router.post('/addwishlist',authMiddleware,add_wishlish)
 Router.get('/',authMiddleware,getAllWish)
-Router.delete('/delete',authMiddleware,deleteWish)
+Router.delete('/delete/:id',authMiddleware,deleteWish)
 
 module.exports=Router

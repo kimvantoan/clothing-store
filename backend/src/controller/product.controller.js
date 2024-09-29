@@ -46,14 +46,16 @@ const getProductById = async (req, res) => {
 };
 
 const deleteProductById = async (req, res) => {
+  const productId = req.params.id;
+
   try {
-    await delete_product(req.body._id);
+    await delete_product(productId);
+
     res
       .status(200)
-      .json({ success: true, message: "delete product successfully" });
+      .json({ success: true, message: "Delete product successfully" });
   } catch (error) {
     console.log(error);
-
     return res.status(500).json({ success: false, message: "Error" });
   }
 };
@@ -64,11 +66,11 @@ const updateProduct = async (req, res) => {
     const product = await findProductById(id);
     let imageUrl;
     if (req.file) {
-      const imagePath = req.file.path; 
-      const result = await cloudinary.uploader.upload(imagePath); 
-      imageUrl = result.secure_url; 
+      const imagePath = req.file.path;
+      const result = await cloudinary.uploader.upload(imagePath);
+      imageUrl = result.secure_url;
     } else {
-      imageUrl = product.image; 
+      imageUrl = product.image;
     }
 
     await update_product(id, req.body, imageUrl);

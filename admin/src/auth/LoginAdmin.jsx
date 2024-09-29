@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import signin from "../assets/logo.png";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 const LoginAdmin = () => {
   const [email, setUseremail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,19 +12,22 @@ const LoginAdmin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/auth/loginAdmin", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "http://localhost:3000/auth/loginAdmin",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       navigate("/products");
       toast.success(res.data.message);
     } catch (err) {
-      toast.error(err.response.data.message);
-      console.log(err)
+      toast.error(err);
+      console.log(err);
       setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
     }
   };
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -36,10 +39,15 @@ const LoginAdmin = () => {
             className="w-32 h-32 object-cover rounded-full"
           />
         </div>
-        <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">Admin Login</h2>
+        <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
+          Admin Login
+        </h2>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
               email
             </label>
             <input
@@ -54,7 +62,10 @@ const LoginAdmin = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
               Password
             </label>
             <input

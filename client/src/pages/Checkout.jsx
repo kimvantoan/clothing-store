@@ -43,11 +43,7 @@ const Checkout = () => {
           shipAddress: address,
           paymentMethod: paymentMethod,
         },
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true }
       );
       toast.success(res.data.message);
       navigate("/order");
@@ -71,11 +67,8 @@ const Checkout = () => {
           paymentMethod: "paypal",
           paymentDetails: details,
         },
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true }
+
       );
       toast.success("Payment successful and order placed!");
       navigate("/order");

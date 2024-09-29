@@ -79,12 +79,7 @@ const AddProduct = () => {
       const res = await axios.post(
         "http://localhost:3000/product/createProduct",
         formData,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZTJiMjg3ZWE0YzExMTJlODhmNWQyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyNjEzMjk1MX0.hN3PI_YjSgCIJlmyXtjRhm7cf9dNAAo8gEfODHT2ntg",
-          },
-        }
+        { withCredentials: true }
       );
       navigate("/products");
       toast.success(res.data.message);

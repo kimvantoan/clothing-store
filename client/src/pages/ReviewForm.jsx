@@ -18,8 +18,6 @@ const ReviewForm = () => {
     uniqueOrders[key] = order;
   });
 
-  const result = Object.values(uniqueOrders);
-
   const handleRatingChange = (itemId, rating) => {
     setProductRatings((prev) => ({
       ...prev,
@@ -38,11 +36,7 @@ const ReviewForm = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/order/${id}`, {
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
-      })
+      .get(`http://localhost:3000/order/${id}`, { withCredentials: true })
       .then((res) => setOrder(res.data.order))
       .catch((error) => console.log(error));
   }, []);
@@ -54,11 +48,8 @@ const ReviewForm = () => {
         review: review,
         productId: productId,
       },
-      {
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
-      }
+      { withCredentials: true }
+
     );
     return response.data;
   };
@@ -71,26 +62,22 @@ const ReviewForm = () => {
           rating: rating,
           productId: productId,
         },
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true }
+
       );
       toast.success(response.data.message);
     } catch (error) {
       console.log(error);
-      
     }
   };
   const handleSubmit = async (e, itemId) => {
     e.preventDefault();
     console.log(itemId);
-    
+
     try {
       const rating = productRatings[itemId];
       const review = productReviews[itemId];
-      
+
       await submitRate(rating, itemId);
       await submitReview(review, itemId);
 
@@ -154,7 +141,9 @@ const ReviewForm = () => {
                 placeholder="what do you thing"
                 maxLength="300"
                 value={productReviews[item.product._id] || ""}
-                onChange={(e) => handleReviewChange(item.product._id, e.target.value)}
+                onChange={(e) =>
+                  handleReviewChange(item.product._id, e.target.value)
+                }
               ></textarea>
             </div>
 

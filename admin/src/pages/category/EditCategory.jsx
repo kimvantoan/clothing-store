@@ -35,12 +35,7 @@ const EditCategory = () => {
       const res = await axios.patch(
         `http://localhost:3000/category/update/${id}`,
         data,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yjc3ZGJlZmZjYmFmMDM1YjhlNTQyMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMzgyMDc0MX0.3ADoS7sGJxfbmZy6GJgF8j0e5Dbxteje-XSzuB-oYnI",
-          },
-        }
+        { withCredentials: true }
       );
       navigate("/categories");
       toast.success(res.data.message);

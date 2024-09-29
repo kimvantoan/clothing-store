@@ -79,7 +79,7 @@ const Header = () => {
 
       <div className="flex gap-3">
         <NavLink
-          to={localStorage.getItem("token") ? "/wishlist" : "/signin"}
+          to={"/wishlist"}
           className={({ isActive }) => {
             return (
               "cursor-pointer p-3 rounded-lg " +
@@ -90,7 +90,7 @@ const Header = () => {
           <CiHeart className={`w-6 h-6`} />
         </NavLink>
         <NavLink
-          to={localStorage.getItem("token") ? "/order" : "/signin"}
+          to={"/order"}
           className={({ isActive }) => {
             return (
               "cursor-pointer p-3  rounded-lg " +

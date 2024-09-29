@@ -4,30 +4,25 @@ import { Link } from "react-router-dom";
 import { StoreContext } from "../context/StoreContext";
 import axios from "axios";
 const WishItem = ({ item }) => {
-  const {  fetWishlist } = useContext(StoreContext);
+  const { fetWishlist } = useContext(StoreContext);
 
   const removeWish = async (id) => {
     try {
-      const res =await axios.delete(
-        "http://localhost:3000/wishlist/delete",
-        {
-          data:{
-            id:id
-          },
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+      const res = await axios.delete(
+        `http://localhost:3000/wishlist/delete/${id}`,
+        { withCredentials: true }
       );
-      fetWishlist()
+      fetWishlist();
     } catch (error) {
       console.log(error);
-      
     }
   };
   return (
     <div className="grid grid-cols-7 place-items-center py-7 border-b border-#BEBCBD">
-      <AiOutlineClose className="w-6 h-6 cursor-pointer active:scale-95" onClick={()=>removeWish(item._id)}/>
+      <AiOutlineClose
+        className="w-6 h-6 cursor-pointer active:scale-95"
+        onClick={() => removeWish(item._id)}
+      />
 
       <img
         src={item.product?.image}

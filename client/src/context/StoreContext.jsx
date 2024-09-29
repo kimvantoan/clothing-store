@@ -15,9 +15,7 @@ const StoreContextProvider = ({ children }) => {
   const fetWishlist = async () => {
     try {
       const res = await axios.get("http://localhost:3000/wishlist", {
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
+        withCredentials: true,
       });
       setWishlist(res.data.wishlist);
     } catch (error) {
@@ -27,9 +25,7 @@ const StoreContextProvider = ({ children }) => {
   const fetchOrders = async () => {
     try {
       const res = await axios.get("http://localhost:3000/order", {
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
+        withCredentials: true,
       });
       setOrders(res.data.orders);
     } catch (error) {
@@ -44,24 +40,20 @@ const StoreContextProvider = ({ children }) => {
       .catch((error) => console.log(error));
   }, []);
 
-  const fetchUser = () => {
-    axios
-      .get("http://localhost:3000/user/info", {
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
-      })
-      .then((res) => setUser(res.data.user))
-      .catch((error) => console.log(error));
+  const fetchUser = async () => {
+    try {
+      const res= await axios.get("http://localhost:3000/user/info", {
+        withCredentials: true,
+      });
+      setUser(res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchCart = () => {
     axios
-      .get("http://localhost:3000/cart", {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
-      })
+      .get("http://localhost:3000/cart", { withCredentials: true })
       .then((res) => setCart(res.data.cart))
       .catch((error) => console.log(error));
   };
@@ -75,11 +67,7 @@ const StoreContextProvider = ({ children }) => {
           size: size,
           color: color,
         },
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true }
       );
       toast.success(res.data.message);
       fetchCart();
@@ -113,11 +101,7 @@ const StoreContextProvider = ({ children }) => {
           _id: cartItemId,
           quantity: quantity + 1,
         },
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true }
       );
       fetchCart();
     } catch (error) {
@@ -132,11 +116,7 @@ const StoreContextProvider = ({ children }) => {
           _id: cartItemId,
           quantity: quantity - 1,
         },
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true }
       );
       fetchCart();
     } catch (error) {
@@ -144,7 +124,7 @@ const StoreContextProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    fetchUser(), fetchCart(), fetchOrders(), fetWishlist();
+   fetchUser(), fetchCart(), fetchOrders();
   }, []);
 
   const contextValue = {

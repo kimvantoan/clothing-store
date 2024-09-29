@@ -4,7 +4,7 @@ const {createCategory, getCategory, deleteCategory, getCategoryById, update_cate
 const Router = express.Router()
 
 Router.post('/add',isAdmin,createCategory)
-Router.delete('/delete',isAdmin,deleteCategory)
+Router.delete('/delete/:id',isAdmin,deleteCategory)
 Router.get('/',getCategory)
 Router.get('/:id',getCategoryById)
 Router.patch('/update/:id',isAdmin,update_category)

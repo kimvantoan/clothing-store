@@ -12,16 +12,11 @@ const OrderDetail = () => {
   const [order, setOrder] = useState({});
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/order/${id}`, {
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
-      })
+      .get(`http://localhost:3000/order/${id}`, { withCredentials: true })
       .then((res) => setOrder(res.data.order))
       .catch((error) => console.log(error));
   }, []);
-  console.log(order);
-  
+
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">
@@ -109,11 +104,7 @@ const OrderDetail = () => {
           <div className="bg-#F6F6F6 rounded-lg my-12">
             {order.orderItems?.map((item) => (
               <div className="grid grid-cols-5 place-items-center py-6 px-10 ">
-                <img
-                  src={item.product?.image}
-                  className="w-24 h-28"
-                  alt=""
-                />
+                <img src={item.product?.image} className="w-24 h-28" alt="" />
                 <div className="col-span-2 place-self-start font-semibold text-xl text-#3C4242">
                   <p>{item.product?.title}</p>
                   <p>
@@ -134,7 +125,11 @@ const OrderDetail = () => {
             <hr />
           </div>
           <Link
-            className={`${order.orderStatus === "Delivered" ? "bg-#8A33FD text-white rounded-lg py-3 px-5 font-medium text-lg w-fit block" : "hidden"}`}
+            className={`${
+              order.orderStatus === "Delivered"
+                ? "bg-#8A33FD text-white rounded-lg py-3 px-5 font-medium text-lg w-fit block"
+                : "hidden"
+            }`}
             to={`/order/rate/${order._id}`}
           >
             Rate and Review

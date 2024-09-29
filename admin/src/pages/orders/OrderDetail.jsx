@@ -8,17 +8,14 @@ import axios from "axios";
 import ButtonSubmit from "../../components/ButtonSubmit";
 import { toast } from "react-toastify";
 const OrderDetail = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams();
   const [order, setOrder] = useState({});
   const [status, setStatus] = useState("");
   const fetchOrder = async () => {
     try {
       const res = await axios.get(`http://localhost:3000/order/${id}`, {
-        headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdjNDNkZGMyMjAxNmQ1ZGM2MzE5YyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMxODUwN30.JzMqW0lsPhhkdNFRsN_z4e8Mkz-KNQn61X--iRiNUtY",
-        },
+        withCredentials: true,
       });
       setOrder(res.data.order);
       setStatus(res.data.order.orderStatus);
@@ -38,15 +35,10 @@ const OrderDetail = () => {
           id: id,
           orderStatus: status,
         },
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdjNDNkZGMyMjAxNmQ1ZGM2MzE5YyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMxODUwN30.JzMqW0lsPhhkdNFRsN_z4e8Mkz-KNQn61X--iRiNUtY",
-          },
-        }
+        { withCredentials: true }
       );
       toast.success(res.data.message);
-      navigate('/orders')
+      navigate("/orders");
     } catch (error) {
       console.log(error);
     }
@@ -96,9 +88,17 @@ const OrderDetail = () => {
           </div>
           <div className="grid grid-cols-4">
             <p className="font-medium">Status</p>
-            {order.orderStatus === "Canceled" || order.orderStatus === "Delivered" ? (
-              <p className={`${order.orderStatus ==="Canceled" ? 'text-red-500 bg-red-100': 'text-green-500 bg-green-100'} font-semibold px-3 py-2  w-fit col-span-3`}>{order.orderStatus}
-            </p>
+            {order.orderStatus === "Canceled" ||
+            order.orderStatus === "Delivered" ? (
+              <p
+                className={`${
+                  order.orderStatus === "Canceled"
+                    ? "text-red-500 bg-red-100"
+                    : "text-green-500 bg-green-100"
+                } font-semibold px-3 py-2  w-fit col-span-3`}
+              >
+                {order.orderStatus}
+              </p>
             ) : (
               <>
                 <select
@@ -143,11 +143,7 @@ const OrderDetail = () => {
               <p>
                 Qty : <span>{item.quantity}</span>
               </p>
-              <p>
-                {formatPrice(
-                  item.quantity * item.price 
-                )}
-              </p>
+              <p>{formatPrice(item.quantity * item.price)}</p>
             </div>
           ))}
         </div>

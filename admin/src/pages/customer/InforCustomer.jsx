@@ -18,16 +18,11 @@ const InforCustomer = () => {
     mobile: "",
   });
   const orderUser = orders.filter((order) => order.user === id);
-  console.log(orderUser);
-  console.log(orders);
 
   const fetchCustomer = async () => {
     try {
       const res = await axios.get(`http://localhost:3000/user/${id}`, {
-        headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdjNDNkZGMyMjAxNmQ1ZGM2MzE5YyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMxODUwN30.JzMqW0lsPhhkdNFRsN_z4e8Mkz-KNQn61X--iRiNUtY",
-        },
+        withCredentials: true,
       });
       setCus(res.data.user);
       setData({
@@ -55,12 +50,7 @@ const InforCustomer = () => {
       const res = await axios.patch(
         `http://localhost:3000/user/update/${id}`,
         data,
-        {
-          headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdjNDNkZGMyMjAxNmQ1ZGM2MzE5YyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMxODUwN30.JzMqW0lsPhhkdNFRsN_z4e8Mkz-KNQn61X--iRiNUtY",
-          },
-        }
+        { withCredentials: true }
       );
       toast.success(res.data.message);
     } catch (error) {

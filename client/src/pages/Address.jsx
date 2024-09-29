@@ -33,11 +33,7 @@ const Address = () => {
       const res = await axios.post(
         "http://localhost:3000/address/create",
         data,
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true }
       );
       fetchUser()
       toast.success(res.data.message);

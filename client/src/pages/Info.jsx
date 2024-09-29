@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const Info = () => {
   const { user, setUser, fetchUser, setCur } = useContext(StoreContext);
-
+  
   const onChangeHandle = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -24,9 +24,7 @@ const Info = () => {
     e.preventDefault();
     try {
       const res = await axios.patch("http://localhost:3000/user/update", user, {
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
+        withCredentials: true,
       });
       toast.success(res.data.message);
       fetchUser();
@@ -35,22 +33,21 @@ const Info = () => {
     }
   };
 
-  const handleRemoveAddress = async (idAddress) => {
+  const handleRemoveAddress = async (id) => {
     try {
-      const res = await axios.delete("http://localhost:3000/address/delete", {
-        data: {
-          _id: idAddress,
-        },
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.delete(
+        `http://localhost:3000/address/delete/${id}`,
+        { withCredentials: true }
+      );
       toast.success(res.data.message);
       fetchUser();
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
+  useEffect(()=>{
+    fetchUser()
+  },[])
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">

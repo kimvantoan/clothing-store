@@ -50,7 +50,6 @@ const updataCategory = async (id, reqData) => {
 
 const delete_Category = async (id) => {
   const category = await Category.findById(id);
-  console.log(JSON.stringify(category._id));
 
   const products = await findAllProduct();
   const product = products.filter(

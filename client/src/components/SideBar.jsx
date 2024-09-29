@@ -1,17 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { TbShoppingBagCheck } from "react-icons/tb";
 import { LuUser2 } from "react-icons/lu";
 import { PiSignOutBold } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { StoreContext } from "../context/StoreContext";
+import axios from "axios";
 const SideBar = () => {
-  const { user } = useContext(StoreContext);
+  const { user,fetchUser } = useContext(StoreContext);
   
-  const navigate = useNavigate();
-  const handleSignout = async () => {
-    localStorage.removeItem("token");
-    navigate("/signin");
+  useEffect(()=>{
+    fetchUser()
+  },[])
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:3000/auth/logout",{ withCredentials: true });
+      location.replace('/signin')
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="w-72">
@@ -60,13 +67,13 @@ const SideBar = () => {
           <p>My info</p>
         </NavLink>
         <button
-          onClick={handleSignout}
+          onClick={handleLogout}
           className={
             "flex items-center text-lg font-semibold text-#807D7E gap-4 px-9 py-3 border-#3C4242"
           }
         >
           <PiSignOutBold />
-          <p>Sign out</p>
+          <p>{!!user.email ? 'Sign out' : 'Sign in'}</p>
         </button>
       </div>
     </div>

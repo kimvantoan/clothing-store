@@ -29,11 +29,7 @@ const EditAddress = () => {
       const res = await axios.patch(
         `http://localhost:3000/address/update/${id}`,
         data,
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true }
       );
       fetchUser();
       toast.success(res.data.message);
@@ -49,15 +45,11 @@ const EditAddress = () => {
   };
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/address/${id}`, {
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
-      })
+      .get(`http://localhost:3000/address/${id}`, { withCredentials: true })
       .then((res) => setData(res.data.address))
       .catch((error) => console.log(error));
   }, []);
-  
+
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">

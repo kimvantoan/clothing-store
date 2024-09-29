@@ -15,6 +15,6 @@ Router.get("/info", authMiddleware, getInfo);
 Router.get("/:id", isAdmin, getUserById);
 Router.patch("/update", authMiddleware, updateUser);
 Router.patch("/update/:id", isAdmin, adminUpdate);
-Router.delete("/delete", isAdmin, deleteUser);
+Router.delete("/delete/:id", isAdmin, deleteUser);
 
 module.exports = Router;

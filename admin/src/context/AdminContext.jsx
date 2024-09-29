@@ -20,10 +20,7 @@ const AdminContextProvider = ({ children }) => {
   const fetchOrders = async () => {
     try {
       const res = await axios.get("http://localhost:3000/order/allOrder", {
-        headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdjNDNkZGMyMjAxNmQ1ZGM2MzE5YyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMxODUwN30.JzMqW0lsPhhkdNFRsN_z4e8Mkz-KNQn61X--iRiNUtY",
-        },
+        withCredentials: true,
       });
       setOrders(res.data.orders);
     } catch (error) {
@@ -41,12 +38,7 @@ const AdminContextProvider = ({ children }) => {
 
   const fetchUsers = () => {
     axios
-      .get("http://localhost:3000/user", {
-        headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdjNDNkZGMyMjAxNmQ1ZGM2MzE5YyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMTMxODUwN30.JzMqW0lsPhhkdNFRsN_z4e8Mkz-KNQn61X--iRiNUtY",
-        },
-      })
+      .get("http://localhost:3000/user", { withCredentials: true })
       .then((res) => setUsers(res.data.users))
       .catch((error) => console.log(error));
   };
@@ -54,7 +46,7 @@ const AdminContextProvider = ({ children }) => {
   useEffect(() => {
     fetchUsers(), fetchOrders(), fetchProducts(), fetchCategories();
   }, []);
-  
+
   const contextValue = {
     products,
     users,

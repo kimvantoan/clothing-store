@@ -20,10 +20,7 @@ const CreateCategory = () => {
     try {
       const res = await axios.post("http://localhost:3000/category/add", 
         data,
-        {headers: {
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yjc3ZGJlZmZjYmFmMDM1YjhlNTQyMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcyMzgyMDc0MX0.3ADoS7sGJxfbmZy6GJgF8j0e5Dbxteje-XSzuB-oYnI",
-        },}
+        { withCredentials: true }
       );
 
       toast.success(res.data.message);

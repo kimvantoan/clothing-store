@@ -54,18 +54,15 @@ const ProductDetail = () => {
           color: color,
           size: size,
         },
-        {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        { withCredentials: true } 
       );
       toast.success(res.data.message);
     } catch (error) {
+      toast.error(error.response.data.message)
       console.log(error);
     }
   };
-  
+
   return (
     <Layout>
       <div className="mx-24">
@@ -160,10 +157,6 @@ const ProductDetail = () => {
                 title={"Add to cart"}
               />
               <PrimaryButton
-                isButtonDisabled={isButtonDisabled}
-                title={formatPrice(product.price)}
-              />
-              <PrimaryButton
                 action={() =>
                   AddtoWishlist(product._id, selectSize, selectColor)
                 }
@@ -227,10 +220,6 @@ const ProductDetail = () => {
                 <h3 className="text-xl font-semibold">
                   {item.user?.firstname + " " + item.user?.lastname}
                 </h3>
-                {/* <div>
-                  {"★".repeat(rating)} // đánh giá bằng sao
-                  {"☆".repeat(5 - rating)} // sao rỗng
-                </div> */}
                 <p>{item.review}</p>
               </div>
             ))}
