@@ -6,7 +6,8 @@ import Filter from "../components/Filter";
 import { StoreContext } from "../context/StoreContext";
 const ProductList = ({ title, category }) => {
   const { products, listProduct } = useContext(StoreContext);
-
+  console.log(listProduct);
+  
   const filterProduct = listProduct.length !== 0 ? listProduct : products;
   
   const displayProduct =
@@ -17,6 +18,7 @@ const ProductList = ({ title, category }) => {
             item.category?.parentCategory.name === category ||
             item.category?.parentCategory.name === "both"
         );
+    
   return (
     <Layout>
       <div className="flex mx-24">

@@ -7,15 +7,34 @@ import { NavLink } from "react-router-dom";
 import { StoreContext } from "../context/StoreContext";
 import axios from "axios";
 const SideBar = () => {
-  const { user,fetchUser } = useContext(StoreContext);
-  
-  useEffect(()=>{
-    fetchUser()
-  },[])
+  const { user, fetchUser } = useContext(StoreContext);
+
+  const SideBarItem = [
+    {
+      title: "My orders",
+      icon: <TbShoppingBagCheck />,
+      link: "/order",
+    },
+    {
+      title: "Wishlist",
+      icon: <FaRegHeart />,
+      link: "/wishlist",
+    },
+    {
+      title: "My info",
+      icon: <LuUser2 />,
+      link: "/info",
+    },
+  ];
+  useEffect(() => {
+    fetchUser();
+  }, []);
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:3000/auth/logout",{ withCredentials: true });
-      location.replace('/signin')
+      await axios.get("http://localhost:3000/auth/logout", {
+        withCredentials: true,
+      });
+      location.replace("/signin");
     } catch (error) {
       console.log(error);
     }
@@ -30,42 +49,20 @@ const SideBar = () => {
       </div>
       <p className="text-sm text-#807D7E mb-7">Welcome to your Account</p>
       <div>
-        <NavLink
-          to={"/order"}
-          className={({ isActive }) => {
-            return (
-              "flex items-center text-lg font-semibold text-#807D7E gap-4 px-9 py-3  " +
-              (isActive ? "border-l-2 border-#3C4242 bg-#F6F6F6" : "")
-            );
-          }}
-        >
-          <TbShoppingBagCheck />
-          <p>My orders</p>
-        </NavLink>
-        <NavLink
-          to={"/wishlist"}
-          className={({ isActive }) => {
-            return (
-              "flex items-center text-lg font-semibold text-#807D7E gap-4 px-9 py-3  " +
-              (isActive ? "border-l-2 border-#3C4242 bg-#F6F6F6" : "")
-            );
-          }}
-        >
-          <FaRegHeart />
-          <p>Wishlist</p>
-        </NavLink>
-        <NavLink
-          to={"/info"}
-          className={({ isActive }) => {
-            return (
-              "flex items-center text-lg font-semibold text-#807D7E gap-4 px-9 py-3  " +
-              (isActive ? "border-l-2 border-#3C4242 bg-#F6F6F6" : "")
-            );
-          }}
-        >
-          <LuUser2 />
-          <p>My info</p>
-        </NavLink>
+        {SideBarItem.map((item) => (
+          <NavLink
+            to={item.link}
+            className={({ isActive }) => {
+              return (
+                "flex items-center text-lg font-semibold text-#807D7E gap-4 px-9 py-3  " +
+                (isActive ? "border-l-2 border-#3C4242 bg-#F6F6F6" : "")
+              );
+            }}
+          >
+            {item.icon}
+            <p>{item.title}</p>
+          </NavLink>
+        ))}
         <button
           onClick={handleLogout}
           className={
@@ -73,7 +70,7 @@ const SideBar = () => {
           }
         >
           <PiSignOutBold />
-          <p>{!!user.email ? 'Sign out' : 'Sign in'}</p>
+          <p>{!!user.email ? "Sign out" : "Sign in"}</p>
         </button>
       </div>
     </div>

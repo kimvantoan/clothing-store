@@ -16,7 +16,17 @@ const OrderDetail = () => {
       .then((res) => setOrder(res.data.order))
       .catch((error) => console.log(error));
   }, []);
-
+  const orderStatus = [
+    {
+      status: "Order Placed",
+    },
+    {
+      status: "Inprogress",
+    },
+    {
+      status: "shipped",
+    },
+  ];
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">
@@ -52,42 +62,23 @@ const OrderDetail = () => {
           </div>
 
           <div className="flex px-7 justify-between items-center mt-12 mx-32">
-            <div className="flex flex-col gap-4 items-center">
-              <div
-                className={`${
-                  order.orderStatus === "Order Placed"
-                    ? "text-#8A33FD"
-                    : "text-#BEBCBD"
-                }  text-xl font-bold`}
-              >
-                Order Placed
-              </div>
-            </div>
-            <div className="bg-#BEBCBD w-14 mt-2 h-0.5"></div>
-            <div className="flex flex-col gap-4 items-center">
-              <div
-                className={`${
-                  order.orderStatus === "Inprogress"
-                    ? "text-#8A33FD"
-                    : "text-#BEBCBD"
-                }  text-xl font-bold`}
-              >
-                Inprogress
-              </div>
-            </div>
-            <div className="bg-#BEBCBD w-14 mt-2 h-0.5"></div>
-            <div className="flex flex-col gap-4 items-center">
-              <div
-                className={`${
-                  order.orderStatus === "shipped"
-                    ? "text-#8A33FD"
-                    : "text-#BEBCBD"
-                }  text-xl font-bold`}
-              >
-                shipped
-              </div>
-            </div>
-            <div className="bg-#BEBCBD w-14 mt-2 h-0.5"></div>
+            {orderStatus.map((item) => (
+              <>
+                <div className="flex flex-col gap-4 items-center">
+                  <div
+                    className={`${
+                      order.orderStatus === item.status
+                        ? "text-#8A33FD"
+                        : "text-#BEBCBD"
+                    }  text-xl font-bold`}
+                  >
+                    {item.status}
+                  </div>
+                </div>
+                <div className="bg-#BEBCBD w-14 mt-2 h-0.5"></div>
+              </>
+            ))}
+
             <div className="flex flex-col gap-4 items-center">
               <div
                 className={`${

@@ -21,9 +21,9 @@ const updateCartItem = async (req, res) => {
 
 const removeCartItem = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { id } = req.params;
 
-    await remove_cartItem(userId, req.body);
+    await remove_cartItem(id);
 
     res
       .status(200)

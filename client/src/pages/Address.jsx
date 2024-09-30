@@ -170,12 +170,6 @@ const Address = () => {
                 className="bg-#F6F6F6 outline-none px-5 py-4 rounded-lg"
               />
             </div>
-            {/* <div className="col-span-2 text-xl text-#3C4242 flex flex-col gap-3">
-              <div className="flex gap-2 items-center">
-                <input type="checkbox" className="w-4 h-4" name="" id="" />
-                <span>Set as default shipping address</span>
-              </div>
-            </div> */}
             <div className="flex gap-7 text-xl font-bold">
               <PrimaryButton title={"Save"} type={"submit"} />
               <Link

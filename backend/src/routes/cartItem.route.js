@@ -5,6 +5,6 @@ const { updateCartItem, removeCartItem } = require('../controller/cartItem.contr
 const Router = express.Router()
 
 Router.patch('/update',authMiddleware,updateCartItem)
-Router.delete('/delete',authMiddleware,removeCartItem)
+Router.delete('/delete/:id',authMiddleware,removeCartItem)
 
 module.exports=Router

@@ -4,15 +4,15 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { StoreContext } from "../context/StoreContext";
 const Header = () => {
-  const { products, setProducts } = useContext(StoreContext);
+  const { products,setListProduct} = useContext(StoreContext);
   const [search, setSearch] = useState("");
-
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const results = products.filter((product) => {
       return product.title.toLowerCase().includes(search.toLowerCase());
     });
-    setProducts(results);
+    setListProduct(results);
   };
+  
   return (
     <div className="flex justify-between items-center px-24 py-5 gap-20  border-b-2">
       <NavLink to={"/"}>

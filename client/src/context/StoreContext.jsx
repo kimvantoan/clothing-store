@@ -32,17 +32,18 @@ const StoreContextProvider = ({ children }) => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/product")
-      .then((res) => setProducts(res.data.products))
-      .catch((error) => console.log(error));
-  }, []);
+  const fetchProduct = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/product");
+      setProducts(res.data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchUser = async () => {
     try {
-      const res= await axios.get("http://localhost:3000/user/info", {
+      const res = await axios.get("http://localhost:3000/user/info", {
         withCredentials: true,
       });
       setUser(res.data.user);
@@ -76,16 +77,12 @@ const StoreContextProvider = ({ children }) => {
     }
   };
 
-  const handleRemoveCart = async (cartItemId) => {
+  const handleRemoveCart = async (id) => {
     try {
-      const res = await axios.delete("http://localhost:3000/cartItem/delete", {
-        data: {
-          _id: cartItemId,
-        },
-        headers: {
-          authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.delete(
+        `http://localhost:3000/cartItem/delete/${id}`,
+        { withCredentials: true }
+      );
 
       fetchCart();
     } catch (error) {
@@ -124,7 +121,7 @@ const StoreContextProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-   fetchUser(), fetchCart(), fetchOrders();
+    fetchUser(), fetchCart(), fetchOrders(),fetchProduct()
   }, []);
 
   const contextValue = {
@@ -141,6 +138,7 @@ const StoreContextProvider = ({ children }) => {
     fetchUser,
     fetchOrders,
     wishlist,
+    fetchProduct,
     setWishlist,
     setProducts,
     fetWishlist,
