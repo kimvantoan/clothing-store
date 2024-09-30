@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { createUser, findUserByEmail } = require("../service/user.service.js");
+const { createUser, findUserByEmail, update_User } = require("../service/user.service.js");
 
 const createToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET);
@@ -111,8 +111,42 @@ const logout = async (req, res) => {
   res.cookie("token", "", {
     expires: new Date(0),
   });
-  res.status(200).json({ success: true});
-
+  res.status(200).json({ success: true });
 };
 
-module.exports = { register, login, loginAdmin,logout };
+const changePassword = async (req, res) => {
+  try {
+    const { email, password, newPassword, confirmPassword } = req.body;
+
+    const existEmail = await findUserByEmail(email);
+
+    if (!existEmail) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User doesn't exist" });
+    }
+    const isMatch = await bcrypt.compare(password, existEmail.password);
+
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ success: false, message: "wrong email or password" });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ success: false, message: "wrong confirm password" });
+    }
+    
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(newPassword, salt);
+    await update_User(existEmail._id,{password:hashPassword})
+  
+    res.status(200).json({ success: true, message: "changed password" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Error" });
+  }
+};
+
+module.exports = { register, login, loginAdmin, logout, changePassword };
