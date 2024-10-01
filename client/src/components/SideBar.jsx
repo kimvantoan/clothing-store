@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import { StoreContext } from "../context/StoreContext";
 import axios from "axios";
 const SideBar = () => {
-  const { user, fetchUser } = useContext(StoreContext);
+  const { user, fetchUser ,url} = useContext(StoreContext);
 
   const SideBarItem = [
     {
@@ -31,7 +31,7 @@ const SideBar = () => {
   }, []);
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:3000/auth/logout", {
+      await axios.get(`${url}/auth/logout`, {
         withCredentials: true,
       });
       location.replace("/signin");

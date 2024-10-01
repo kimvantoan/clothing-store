@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { StoreContext } from "../context/StoreContext";
 import axios from "axios";
 const WishItem = ({ item }) => {
-  const { fetWishlist } = useContext(StoreContext);
+  const { fetWishlist,url } = useContext(StoreContext);
 
   const removeWish = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:3000/wishlist/delete/${id}`,
+        `${url}/wishlist/delete/${id}`,
         { withCredentials: true }
       );
       fetWishlist();

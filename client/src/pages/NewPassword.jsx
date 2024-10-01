@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import HeaderAuth from "../components/HeaderAuth";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PrimaryButton from "../components/PrimaryButton";
 import { useNavigate } from "react-router-dom";
+import { StoreContext } from "../context/StoreContext";
 const NewPassword = () => {
+  const {url}=useContext(StoreContext)
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -21,7 +23,7 @@ const NewPassword = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3000/auth/changePassword",
+        `${url}/auth/changePassword`,
         data,
         {
           withCredentials: true,

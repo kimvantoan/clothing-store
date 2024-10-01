@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 const Checkout = () => {
   const navigate = useNavigate();
   const [showPayPal, setShowPayPal] = useState(false);
-  const { user, cart } = useContext(StoreContext);
+  const { user, cart ,url} = useContext(StoreContext);
   const [paymentMethod, setPaymentMethod] = useState("");
   const discountValue = user.VIP === "1" ? 0.05 : user.VIP === "2" ? 0.1 : 0;
   const handlePaymentMethodChange = (event) => {
@@ -38,7 +38,7 @@ const Checkout = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/order/placeOrder",
+        `${url}/order/placeOrder`,
         {
           shipAddress: address,
           paymentMethod: paymentMethod,
@@ -61,7 +61,7 @@ const Checkout = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/order/placeOrder",
+        `${url}/order/placeOrder`,
         {
           shipAddress: address,
           paymentMethod: "paypal",

@@ -8,11 +8,12 @@ import axios from "axios";
 import formatDate from "../utils/FormatDate";
 const OrderDetail = () => {
   const { id } = useParams();
+  const { url } = useContext(StoreContext);
 
   const [order, setOrder] = useState({});
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/order/${id}`, { withCredentials: true })
+      .get(`${url}/order/${id}`, { withCredentials: true })
       .then((res) => setOrder(res.data.order))
       .catch((error) => console.log(error));
   }, []);

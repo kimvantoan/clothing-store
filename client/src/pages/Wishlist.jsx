@@ -10,7 +10,7 @@ const Wishlist = () => {
   useEffect(() => {
     fetWishlist();
   }, []);
-
+  
   return (
     <Layout>
       <div className="flex gap-x-12 mx-24 my-10">

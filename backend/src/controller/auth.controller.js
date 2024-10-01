@@ -1,6 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { createUser, findUserByEmail, update_User } = require("../service/user.service.js");
+const {
+  createUser,
+  findUserByEmail,
+  update_User,
+} = require("../service/user.service.js");
 
 const createToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET);
@@ -59,6 +63,7 @@ const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      secure: true,
     });
     res.status(200).json({ success: true, token });
   } catch (error) {
@@ -97,6 +102,7 @@ const loginAdmin = async (req, res) => {
     const token = createToken(existEmail._id, existEmail.role);
     res.cookie("token", token, {
       httpOnly: true,
+      secure: true,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     });
     res.status(200).json({ success: true, token });
@@ -138,11 +144,11 @@ const changePassword = async (req, res) => {
         .status(400)
         .json({ success: false, message: "wrong confirm password" });
     }
-    
+
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(newPassword, salt);
-    await update_User(existEmail._id,{password:hashPassword})
-  
+    await update_User(existEmail._id, { password: hashPassword });
+
     res.status(200).json({ success: true, message: "changed password" });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Error" });

@@ -5,6 +5,7 @@ import signup from "../assets/signup.png";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PrimaryButton from "../components/PrimaryButton";
+import { StoreContext } from "../context/StoreContext";
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");
@@ -12,11 +13,12 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { url } = useContext(StoreContext);
   const navigate = useNavigate();
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/auth/register", {
+      const res = await axios.post(`${url}/auth/register`, {
         firstname: firstName,
         lastname: lastName,
         email: email,

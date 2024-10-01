@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { StoreContext } from "../context/StoreContext";
 const Address = () => {
-  const {fetchUser} = useContext(StoreContext)
+  const {fetchUser,url} = useContext(StoreContext)
   const navigate = useNavigate();
   const [data, setData] = useState({
     firstname: "",
@@ -31,7 +31,7 @@ const Address = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3000/address/create",
+        `${url}/address/create`,
         data,
         { withCredentials: true }
       );

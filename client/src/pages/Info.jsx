@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Info = () => {
-  const { user, setUser, fetchUser, setCur } = useContext(StoreContext);
+  const { user, setUser, fetchUser, setCur,url } = useContext(StoreContext);
   
   const onChangeHandle = (e) => {
     const name = e.target.name;
@@ -23,7 +23,7 @@ const Info = () => {
   const handleUpdateInfo = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.patch("http://localhost:3000/user/update", user, {
+      const res = await axios.patch(`${url}/user/update`, user, {
         withCredentials: true,
       });
       toast.success(res.data.message);
@@ -36,7 +36,7 @@ const Info = () => {
   const handleRemoveAddress = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:3000/address/delete/${id}`,
+        `${url}/address/delete/${id}`,
         { withCredentials: true }
       );
       toast.success(res.data.message);

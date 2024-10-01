@@ -17,12 +17,12 @@ const ProductDetail = () => {
   const [selectSize, setSelectSize] = useState("");
   const [selectColor, setSelectColor] = useState("");
   const [productDesc, setProductDesc] = useState("desc");
-  const { handleAddToCart } = useContext(StoreContext);
+  const { handleAddToCart,url } = useContext(StoreContext);
   const [review, setReview] = useState([]);
   const reviews = product.reviews;
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/product/${id}`)
+      .get(`${url}/product/${id}`)
       .then((res) => {
         setProduct(res.data.product);
       })
@@ -31,7 +31,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/review/${id}`)
+      .get(`${url}/review/${id}`)
       .then((res) => {
         setReview(res.data.reviews);
       })
@@ -48,7 +48,7 @@ const ProductDetail = () => {
   const AddtoWishlist = async (productId, color, size) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/wishlist/addwishlist",
+        `${url}/wishlist/addwishlist`,
         {
           product: productId,
           color: color,

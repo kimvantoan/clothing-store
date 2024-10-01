@@ -4,15 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PrimaryButton from "../components/PrimaryButton";
+import { StoreContext } from "../context/StoreContext";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { url } = useContext(StoreContext);
   const navigate = useNavigate();
   const handleSignin = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:3000/auth/login",
+        `${url}/auth/login`,
         {
           email: email,
           password: password,

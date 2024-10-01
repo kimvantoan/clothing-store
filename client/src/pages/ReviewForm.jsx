@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { IoIosStar } from "react-icons/io";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Layout from "../components/Layout";
+import { StoreContext } from "../context/StoreContext";
 
 const ReviewForm = () => {
   const [productRatings, setProductRatings] = useState({});
   const [productReviews, setProductReviews] = useState({});
+  const { url } = useContext(StoreContext);
 
   const [order, setOrder] = useState({});
   const uniqueOrders = {};
@@ -36,14 +38,14 @@ const ReviewForm = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/order/${id}`, { withCredentials: true })
+      .get(`${url}/order/${id}`, { withCredentials: true })
       .then((res) => setOrder(res.data.order))
       .catch((error) => console.log(error));
   }, []);
 
   const submitReview = async (review, productId) => {
     const response = await axios.post(
-      `http://localhost:3000/review/create`,
+      `${url}/review/create`,
       {
         review: review,
         productId: productId,
@@ -57,7 +59,7 @@ const ReviewForm = () => {
   const submitRate = async (rating, productId) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/rating/create`,
+        `${url}/rating/create`,
         {
           rating: rating,
           productId: productId,
@@ -97,7 +99,7 @@ const ReviewForm = () => {
         >
           <div className="flex items-center mb-4">
             <img
-              src={`http://localhost:3000/${item.product?.image}`}
+              src={`${url}/${item.product?.image}`}
               alt="Product"
               className="w-16 h-16 rounded mr-4"
             />

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { StoreContext } from "../context/StoreContext";
 
 const EditAddress = () => {
-  const { fetchUser } = useContext(StoreContext);
+  const { fetchUser,url } = useContext(StoreContext);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const EditAddress = () => {
     e.preventDefault();
     try {
       const res = await axios.patch(
-        `http://localhost:3000/address/update/${id}`,
+        `${url}/address/update/${id}`,
         data,
         { withCredentials: true }
       );
@@ -45,7 +45,7 @@ const EditAddress = () => {
   };
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/address/${id}`, { withCredentials: true })
+      .get(`${url}/address/${id}`, { withCredentials: true })
       .then((res) => setData(res.data.address))
       .catch((error) => console.log(error));
   }, []);

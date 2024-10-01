@@ -11,10 +11,11 @@ const StoreContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [orders, setOrders] = useState([]);
   const [wishlist, setWishlist] = useState([]);
-
+  const url = import.meta.env.VITE_API_URL
+  
   const fetWishlist = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/wishlist", {
+      const res = await axios.get(`${url}/wishlist`, {
         withCredentials: true,
       });
       setWishlist(res.data.wishlist);
@@ -24,7 +25,7 @@ const StoreContextProvider = ({ children }) => {
   };
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/order", {
+      const res = await axios.get(`${url}/order`, {
         withCredentials: true,
       });
       setOrders(res.data.orders);
@@ -34,7 +35,7 @@ const StoreContextProvider = ({ children }) => {
   };
   const fetchProduct = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/product");
+      const res = await axios.get(`${url}/product`);
       setProducts(res.data.products);
     } catch (error) {
       console.log(error);
@@ -43,7 +44,7 @@ const StoreContextProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/user/info", {
+      const res = await axios.get(`${url}/user/info`, {
         withCredentials: true,
       });
       setUser(res.data.user);
@@ -54,7 +55,7 @@ const StoreContextProvider = ({ children }) => {
 
   const fetchCart = () => {
     axios
-      .get("http://localhost:3000/cart", { withCredentials: true })
+      .get(`${url}/cart`, { withCredentials: true })
       .then((res) => setCart(res.data.cart))
       .catch((error) => console.log(error));
   };
@@ -62,7 +63,7 @@ const StoreContextProvider = ({ children }) => {
   const handleAddToCart = async (productId, size, color) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/cart/add",
+        `${url}/cart/add`,
         {
           productId: productId,
           size: size,
@@ -80,7 +81,7 @@ const StoreContextProvider = ({ children }) => {
   const handleRemoveCart = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:3000/cartItem/delete/${id}`,
+        `${url}/cartItem/delete/${id}`,
         { withCredentials: true }
       );
 
@@ -93,7 +94,7 @@ const StoreContextProvider = ({ children }) => {
   const handlePlus = async (cartItemId, quantity) => {
     try {
       const res = await axios.patch(
-        "http://localhost:3000/cartItem/update",
+        `${url}/cartItem/update`,
         {
           _id: cartItemId,
           quantity: quantity + 1,
@@ -108,7 +109,7 @@ const StoreContextProvider = ({ children }) => {
   const handleSub = async (cartItemId, quantity) => {
     try {
       const res = await axios.patch(
-        "http://localhost:3000/cartItem/update",
+        `${url}/cartItem/update`,
         {
           _id: cartItemId,
           quantity: quantity - 1,
@@ -125,6 +126,7 @@ const StoreContextProvider = ({ children }) => {
   }, []);
 
   const contextValue = {
+    url,
     products,
     cart,
     user,
